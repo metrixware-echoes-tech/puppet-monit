@@ -1,0 +1,17 @@
+# monitrc: Managed by puppet.
+#
+set daemon <%= @check_interval %>
+set logfile /var/log/monit.log
+set idfile /var/lib/monit/id
+set statefile /var/lib/monit/state
+set eventqueue
+    basedir /var/lib/monit/events
+    slots 100
+<%- if @httpd == true -%>
+set httpd port <%= @httpd_port %> and
+   use address <%= @httpd_address %>
+   allow 0.0.0.0/0.0.0.0
+   allow <%= @httpd_user %>:<%= @httpd_password %>
+<%- end -%>
+
+include /etc/monit/conf.d/*
