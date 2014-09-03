@@ -31,11 +31,11 @@
 # Copyright 2014 Echoes Technologies SAS, unless otherwise noted.
 #
 define monit::check (
-  $source       = undef
-  $package_name = 'monit'
+  $source       = undef,
+  $package_name = ['monit'],
   $service_name = 'monit'
 ) {
-  validate_absolute_path($source)
+  validate_string($source)
   validate_array($package_name)
   validate_string($service_name)
 
