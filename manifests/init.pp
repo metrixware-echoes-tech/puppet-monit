@@ -29,7 +29,7 @@
 #   Default: 'monit'
 #
 # [*manage_firewall*]
-#   If true and if puppetlabs-firewall module is present, 
+#   If true and if puppetlabs-firewall module is present,
 #   Puppet manages firewall to allow HTTP access for Monit Dashboard.
 #   Default: true
 #
@@ -109,5 +109,4 @@ class monit (
   class { "${module_name}::service": } ->
   class { "${module_name}::firewall": }->
   anchor { "${module_name}::end": }
-
 }
