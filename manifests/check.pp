@@ -32,8 +32,8 @@
 #
 define monit::check (
   $source       = undef,
-  $package_name = ['monit'],
-  $service_name = 'monit'
+  $package_name = 'monit',
+  $service_name = 'monit',
 ) {
   validate_string($source)
   validate_array($package_name)
