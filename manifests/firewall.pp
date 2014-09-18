@@ -6,7 +6,7 @@ class monit::firewall {
 
   if $monit::httpd and $monit::manage_firewall {
     if defined('::firewall') {
-      firewall { "$monit::httpd_port allow Monit inbound traffic":
+      firewall { "${monit::httpd_port} allow Monit inbound traffic":
         action => 'accept',
         dport  => $monit::httpd_port,
         proto  => 'tcp',
