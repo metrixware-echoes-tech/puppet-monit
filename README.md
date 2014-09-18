@@ -41,12 +41,14 @@ class { 'monit':
   httpd_password => 'CHANGE_ME',
 }
 ```
+
 ### Add a check
 
 ```puppet
 monit::check { 'ntp':
   source => "puppet:///modules/${module_name}/ntp",
 }
+```
 
 ### Remove a check
 
@@ -54,6 +56,7 @@ monit::check { 'ntp':
 monit::check { 'ntp':
   ensure => absent,
 }
+```
 
 ## Limitations
 
