@@ -22,6 +22,8 @@
 #    source => "puppet:///modules/${module_name}/ntp",
 #  }
 #
+# to disable current monit::check set ```ensure => absent```
+#
 # === Authors
 #
 # Florent Poinsaut <florent.poinsaut@echoes-tech.com>
@@ -34,16 +36,20 @@ define monit::check (
   $source       = undef,
   $package_name = 'monit',
   $service_name = 'monit',
+  $ensure       = present
 ) {
   validate_string($source)
   validate_array($package_name)
   validate_string($service_name)
+  validate_re($ensure, '^(present|absent)$',
+    "${ensure} is not supported for ensure. Allowed values are 'present' and 'absent'.")
 
   file { "/etc/monit/conf.d/${name}":
     owner   => 0,
     group   => 0,
     mode    => '0644',
     source  => $source,
+    ensure  => $ensure,
     notify  => Service[$service_name],
     require => Package[$package_name],
   }
