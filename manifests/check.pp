@@ -1,6 +1,6 @@
 # == Define Resource Type: monit::check
 #
-# Püppet resource to add a Monit check
+# Puppet resource to add a Monit check
 #
 # === Parameters
 #
@@ -36,7 +36,7 @@ define monit::check (
   $service_name = 'monit',
 ) {
   validate_string($source)
-  validate_array($package_name)
+  validate_string($package_name)
   validate_string($service_name)
 
   file { "/etc/monit/conf.d/${name}":
