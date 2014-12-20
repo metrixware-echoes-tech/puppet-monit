@@ -30,15 +30,14 @@
   "version": "0.1.2",
   "author": "Echoes Technologies",
   "summary": "Puppet module to manage monit installation and configuration",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/echoes-tech/puppet-monit",
   "project_page": "https://github.com/echoes-tech/puppet-monit",
   "issues_url": "https://github.com/echoes-tech/puppet-monit/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_range": ">= 1.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 1.0.0"
     }
   ]
 }
-

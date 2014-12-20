@@ -42,8 +42,12 @@ define monit::check (
   $package_name = 'monit',
   $service_name = 'monit',
 ) {
-  validate_re($ensure, '^(present|absent)$',
-    "${ensure} is not supported for ensure. Allowed values are 'present' and 'absent'.")
+  validate_re (
+    $ensure,
+    '^(present|absent)$',
+    "${ensure} is not supported for ensure. \
+Allowed values are 'present' and 'absent'."
+  )
   validate_string($source)
   validate_string($package_name)
   validate_string($service_name)
