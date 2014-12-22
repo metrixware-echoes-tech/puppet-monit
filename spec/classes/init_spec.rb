@@ -1,7 +1,42 @@
 require 'spec_helper'
-describe 'monit' do
+describe 'monit', :type => 'class' do
 
-  context 'with defaults for all parameters' do
-    it { should contain_class('monit') }
+  context "On a Debian OS with no package name specified" do
+    let :facts do
+      {
+        :osfamily => 'Debian'
+      }
+    end
+
+    it {
+      should contain_package('monit')
+      should contain_service('monit')
+    }
   end
+
+  context "On an unknown OS with no package name specified" do
+    let :facts do
+      {
+        :osfamily => 'Darwin'
+      }
+    end
+
+    it {
+      expect { should raise_error(Puppet::Error) }
+    }
+  end
+
+#  context "With a package name specified" do
+#    let :params do
+#      {
+#        :package_name => 'abcd'
+#      }
+#    end
+#
+#    it {
+#      should contain_package('monit').with( { 'name' => 'abcd' } )
+#      should contain_service('monit').with( { 'name' => 'abcd' } )
+#    }
+#  end
+
 end
