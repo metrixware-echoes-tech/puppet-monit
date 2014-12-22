@@ -27,7 +27,7 @@
     }
   ],
   "name": "echoes-monit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Echoes Technologies",
   "summary": "Puppet module to manage monit installation and configuration",
   "license": "Apache-2.0",

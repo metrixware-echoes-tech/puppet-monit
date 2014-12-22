@@ -1,3 +1,8 @@
+##2014-12-22 - Release 0.1.3
+###Summary
+
+This release adds tests and improves the compliance with Puppet Guidelines.
+
 ##0.1.2
 
 2014-09-18
