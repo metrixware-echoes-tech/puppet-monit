@@ -6,10 +6,19 @@ class monit::service inherits monit {
 
   if $monit::service_manage {
     if ($::osfamily == 'Debian') {
+      $content = $::lsbdistcodename ? {
+        'squeeze' => 'startup=1',
+        default   => 'START=yes',
+      }
       file { '/etc/default/monit':
-        content => 'START=yes',
+        content => $content,
         before  => Service['monit'],
       }
+    }
+
+    $hasstatus = $::lsbdistcodename ? {
+      'squeeze' => false,
+      default   => true,
     }
 
     service { 'monit':
@@ -17,7 +26,7 @@ class monit::service inherits monit {
       enable     => $monit::service_enable,
       name       => $monit::service_name,
       hasrestart => true,
-      hasstatus  => true,
+      hasstatus  => $hasstatus,
     }
   }
 }
