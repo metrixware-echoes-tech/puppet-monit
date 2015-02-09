@@ -12,4 +12,22 @@ class monit::params {
   $service_ensure  = 'running'
   $service_manage  = true
   $service_name    = 'monit'
+
+  case $::osfamily {
+    'Debian': {
+      case $::lsbdistcodename {
+        'squeeze', 'lucid': {
+          $default_file_content = 'startup=1'
+          $service_hasstatus    = false
+        }
+        default: {
+          $default_file_content = 'START=yes'
+          $service_hasstatus    = true
+        }
+      }
+    }
+    default: {
+      fail("Unsupported OS family: ${::osfamily}")
+    }
+  }
 }
