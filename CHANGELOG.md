@@ -1,3 +1,8 @@
+##2015-02-09 - Release 0.1.4
+###Summary
+
+This release improves the compliance with Debian Squeeze and Ubuntu Lucid.
+
 ##2014-12-22 - Release 0.1.3
 ###Summary
 
