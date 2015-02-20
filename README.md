@@ -46,9 +46,32 @@ class { 'monit':
 
 ### Add a check
 
+Using the source parameter:
+
 ```puppet
 monit::check { 'ntp':
   source => "puppet:///modules/${module_name}/ntp",
+}
+```
+
+Or using the content parameter with a string:
+
+```puppet
+monit::check { 'ntp':
+  content => 'check process ntpd with pidfile /var/run/ntpd.pid
+  start program = "/etc/init.d/ntpd start"
+  stop  program = "/etc/init.d/ntpd stop"
+  if failed host 127.0.0.1 port 123 type udp then alert
+  if 5 restarts within 5 cycles then timeout
+',
+}
+```
+
+Or using the content parameter with a template:
+
+```puppet
+monit::check { 'ntp':
+  content => template("${module_name}/ntp.erb"),
 }
 ```
 
