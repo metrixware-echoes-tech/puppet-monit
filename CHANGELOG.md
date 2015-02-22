@@ -1,3 +1,8 @@
+##2015-02-22 - Release 0.2.0
+###Summary
+
+This release adds `content` parameter to `monit::check`.
+
 ##2015-02-09 - Release 0.1.4
 ###Summary
 
@@ -12,8 +17,8 @@ This release adds tests and improves the compliance with Puppet Guidelines.
 
 2014-09-18
 
-* Add parameter 'ensure' for 'monit::check' - wild <wild@portal>
-* Fix bad validation for package_name for monit::check - Florent Poinsaut <florent.poinsaut@echoes-tech.com>
+* Add parameter `ensure` for `monit::check` - wild <wild@portal>
+* Fix bad validation for package_name for `monit::check` - Florent Poinsaut <florent.poinsaut@echoes-tech.com>
 
 ##0.1.1
 2014-09-15 Florent Poinsaut <florent.poinsaut@echoes-tech.com>
