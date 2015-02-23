@@ -1,9 +1,10 @@
 # monitrc: Managed by puppet.
 #
 set daemon <%= @check_interval %>
-set logfile /var/log/monit.log
+set logfile <%= @logfile %>
 set idfile /var/lib/monit/id
 set statefile /var/lib/monit/state
+<% if @mailserver %>set mailserver <%= @mailserver %><% end -%>
 set eventqueue
     basedir /var/lib/monit/events
     slots 100

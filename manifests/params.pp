@@ -15,6 +15,8 @@ class monit::params {
   $service_ensure  = 'running'
   $service_manage  = true
   $service_name    = 'monit'
+  $logfile         = '/var/log/monit.log'
+  $mailserver      = false
 
   case $::osfamily {
     'Debian': {
