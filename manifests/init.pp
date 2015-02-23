@@ -61,6 +61,15 @@
 #   Path to monit's conf.d directory.
 #   Default: $::operatingsystem-dependant
 #
+# [*logfile*]
+#   Logfile directive value. Set to eg 'syslog facility log_daemon'
+#   to use syslog instead of direct file logging.
+#   Default: '/var/log/monit.log'
+#
+# [*mailserver*]
+#   If set to a string, alerts will be sent by email to this mailserver.
+#   Default: false
+#
 # === Examples
 #
 #  class { 'monit':
@@ -94,6 +103,9 @@ class monit (
   $service_name    = $monit::params::service_name,
   $config_path     = $monit::params::config_path,
   $confd_path      = $monit::params::confd_path,
+  $logfile         = $monit::params::logfile,
+  $mailserver      = $monit::params::mailserver,
+
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -114,6 +126,10 @@ class monit (
   validate_string($service_name)
   validate_string($config_path)
   validate_string($confd_path)
+  validate_string($logfile)
+  if $mailserver != false {
+    validate_string($mailserver)
+  }
 
   anchor { "${module_name}::begin": } ->
   class { "${module_name}::install": } ->
