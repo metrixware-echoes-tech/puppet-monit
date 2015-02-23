@@ -4,7 +4,7 @@ class monit::config inherits monit {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  file { '/etc/monit/monitrc':
+  file { $config_path:
     ensure  => file,
     owner   => 0,
     group   => 0,
