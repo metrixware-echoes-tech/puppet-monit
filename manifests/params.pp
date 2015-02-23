@@ -12,9 +12,13 @@ class monit::params {
   $service_ensure  = 'running'
   $service_manage  = true
   $service_name    = 'monit'
+  $logfile         = '/var/log/monit.log'
+  $mailserver      = false
 
   case $::osfamily {
     'Debian': {
+      $config_path = '/etc/monit/monitrc'
+      $confd_path = '/etc/monit/conf.d'
       case $::lsbdistcodename {
         'squeeze', 'lucid': {
           $default_file_content = 'startup=1'
@@ -25,6 +29,10 @@ class monit::params {
           $service_hasstatus    = true
         }
       }
+    }
+    'RedHat': {
+      $config_path = '/etc/monit.conf'
+      $confd_path = '/etc/monit.d'
     }
     default: {
       fail("Unsupported OS family: ${::osfamily}")

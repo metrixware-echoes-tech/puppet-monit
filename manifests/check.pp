@@ -49,6 +49,7 @@ define monit::check (
   $package_name = 'monit',
   $service_name = 'monit',
 ) {
+  include monit::params
   validate_re (
     $ensure,
     '^(present|absent)$',
@@ -68,7 +69,7 @@ Allowed values are 'present' and 'absent'."
     validate_string($content)
   }
 
-  file { "/etc/monit/conf.d/${name}":
+  file { "${monit::params::confd_path}/${name}":
     ensure  => $ensure,
     owner   => 0,
     group   => 0,
