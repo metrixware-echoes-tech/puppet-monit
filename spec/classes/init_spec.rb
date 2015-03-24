@@ -13,6 +13,19 @@ describe 'monit', :type => 'class' do
       should contain_service('monit')
     }
   end
+  
+  context "On a RedHat OS with no package name specified" do
+    let :facts do
+      {
+        :osfamily => 'RedHat'
+      }
+    end
+
+    it {
+      should contain_package('monit')
+      should contain_service('monit')
+    }
+  end
 
   context "On an unknown OS with no package name specified" do
     let :facts do
