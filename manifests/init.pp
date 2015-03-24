@@ -31,7 +31,7 @@
 # [*manage_firewall*]
 #   If true and if puppetlabs-firewall module is present,
 #   Puppet manages firewall to allow HTTP access for Monit Dashboard.
-#   Default: true
+#   Default: false
 #
 # [*package_ensure*]
 #   Ensure parameter passed to Monit Package[] resource.
@@ -53,6 +53,14 @@
 #   Name parameter passed to Monit Service[] resource.
 #   Default: 'monit'
 #
+# [*config_file*]
+#   Path to the main config file.
+#   Default: os specific
+#
+# [*config_dir*]
+#   Path to the config directory.
+#   Default: os specific
+#
 # === Examples
 #
 #  class { 'monit':
@@ -65,6 +73,7 @@
 # === Authors
 #
 # Florent Poinsaut <florent.poinsaut@echoes-tech.com>
+# Stas Alekseev <stas.alekseev@gmail.com>
 #
 # === Copyright
 #
@@ -84,6 +93,8 @@ class monit (
   $service_ensure  = $monit::params::service_ensure,
   $service_manage  = $monit::params::service_manage,
   $service_name    = $monit::params::service_name,
+  $config_file     = $monit::params::config_file,
+  $config_dir      = $monit::params::config_dir,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -102,6 +113,8 @@ class monit (
   validate_string($service_ensure)
   validate_bool($service_manage)
   validate_string($service_name)
+  validate_string($config_file)
+  validate_string($config_dir)
 
   anchor { "${module_name}::begin": } ->
   class { "${module_name}::install": } ->
