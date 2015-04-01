@@ -1,4 +1,6 @@
-# Private class
+# == Class: monit::params
+#
+# This is a container class with default parameters for monit classes.
 class monit::params {
   $check_interval  = 120
   $httpd           = false
