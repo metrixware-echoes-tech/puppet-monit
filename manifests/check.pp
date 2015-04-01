@@ -68,7 +68,9 @@ Allowed values are 'present' and 'absent'."
     validate_string($content)
   }
 
-  file { "/etc/monit/conf.d/${name}":
+  include monit::params
+
+  file { "${monit::params::confd_path}/${name}":
     ensure  => $ensure,
     owner   => 0,
     group   => 0,
