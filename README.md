@@ -32,6 +32,10 @@ It allows you to enable HTTP Dashboard an to add check from a file.
 ```puppet
 include 'monit'
 ```
+
+**WARNING:** For RedHat systems, you may need to add an additional repository like the [EPEL repository](http://fedoraproject.org/wiki/EPEL).
+You can use the module [stahnma-epel](https://forge.puppetlabs.com/stahnma/epel) to do this.
+
 ## Usage
 
 ### Enable Monit Dashboard
@@ -85,7 +89,7 @@ monit::check { 'ntp':
 
 ## Limitations
 
-Debian family OSes are officially supported. Tested and built on Debian.
+RedHat and Debian family OSes are officially supported. Tested and built on Debian and CentOS.
 
 ## Contributors
 

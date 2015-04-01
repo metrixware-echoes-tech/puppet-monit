@@ -1,3 +1,6 @@
+# == Class: monit::params
+#
+# This is a container class with default parameters for monit classes.
 class monit::params {
   $check_interval  = 120
   $httpd           = false
@@ -5,7 +8,7 @@ class monit::params {
   $httpd_address   = 'localhost'
   $httpd_user      = 'admin'
   $httpd_password  = 'monit'
-  $manage_firewall = true
+  $manage_firewall = false
   $package_ensure  = 'present'
   $package_name    = 'monit'
   $service_enable  = true
@@ -25,6 +28,13 @@ class monit::params {
           $service_hasstatus    = true
         }
       }
+      $config_file = '/etc/monit/monitrc'
+      $config_dir  = '/etc/monit/conf.d'
+    }
+    'RedHat': {
+      $service_hasstatus = true
+      $config_file       = '/etc/monit.conf'
+      $config_dir        = '/etc/monit.d'
     }
     default: {
       fail("Unsupported OS family: ${::osfamily}")

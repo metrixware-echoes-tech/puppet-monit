@@ -5,9 +5,11 @@ class monit::service inherits monit {
   }
 
   if $monit::service_manage {
-    file { '/etc/default/monit':
-      content => $monit::default_file_content,
-      before  => Service['monit'],
+    if $::osfamily == 'Debian' {
+      file { '/etc/default/monit':
+        content => $monit::default_file_content,
+        before  => Service['monit'],
+      }
     }
 
     service { 'monit':

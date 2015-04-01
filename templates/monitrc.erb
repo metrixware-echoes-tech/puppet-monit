@@ -14,4 +14,4 @@ set httpd port <%= @httpd_port %> and
    allow <%= @httpd_user %>:<%= @httpd_password %>
 <%- end -%>
 
-include /etc/monit/conf.d/*
+include <%= @config_dir %>/*
