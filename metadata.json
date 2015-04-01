@@ -23,7 +23,7 @@
       ]
     },
     {
-      "operatingsystem": "Centos",
+      "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "5",
         "6"
@@ -41,7 +41,7 @@
     }
   ],
   "name": "echoes-monit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Echoes Technologies",
   "summary": "Puppet module to manage monit installation and configuration",
   "license": "Apache-2.0",

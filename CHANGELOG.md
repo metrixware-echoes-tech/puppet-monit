@@ -1,3 +1,8 @@
+##2015-04-22 - Release 0.3.0
+###Summary
+
+This release adds support for RedHat family OSes.
+
 ##2015-02-22 - Release 0.2.0
 ###Summary
 
