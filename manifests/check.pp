@@ -70,7 +70,7 @@ Allowed values are 'present' and 'absent'."
 
   include monit::params
 
-  file { "${monit::params::confd_path}/${name}":
+  file { "${monit::config_dir}/${name}":
     ensure  => $ensure,
     owner   => 0,
     group   => 0,
