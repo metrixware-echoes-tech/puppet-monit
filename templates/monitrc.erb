@@ -4,7 +4,9 @@ set daemon <%= @check_interval %>
 set logfile <%= @logfile %>
 set idfile /var/lib/monit/id
 set statefile /var/lib/monit/state
-<% if @mailserver %>set mailserver <%= @mailserver %><% end -%>
+<%- if @mailserver -%>
+set mailserver <%= @mailserver %>
+<%- end -%>
 set eventqueue
     basedir /var/lib/monit/events
     slots 100

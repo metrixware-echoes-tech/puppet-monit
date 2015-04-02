@@ -68,7 +68,7 @@
 #
 # [*mailserver*]
 #   If set to a string, alerts will be sent by email to this mailserver.
-#   Default: false
+#   Default: undef
 #
 # === Examples
 #
@@ -127,7 +127,7 @@ class monit (
   validate_string($config_file)
   validate_string($config_dir)
   validate_string($logfile)
-  if $mailserver != false {
+  if $mailserver {
     validate_string($mailserver)
   }
 
