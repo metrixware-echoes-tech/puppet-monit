@@ -55,11 +55,11 @@
 #
 # [*config_file*]
 #   Path to the main config file.
-#   Default: os specific
+#   Default: OS specific
 #
 # [*config_dir*]
 #   Path to the config directory.
-#   Default: os specific
+#   Default: OS specific
 #
 # === Examples
 #
@@ -77,7 +77,7 @@
 #
 # === Copyright
 #
-# Copyright 2014 Echoes Technologies SAS, unless otherwise noted.
+# Copyright 2014-2015 Echoes Technologies SAS, unless otherwise noted.
 #
 class monit (
   $check_interval  = $monit::params::check_interval,
