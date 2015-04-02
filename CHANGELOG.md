@@ -1,4 +1,15 @@
-##2015-04-22 - Release 0.3.0
+##2015-04-02 - Release 0.4.0
+###Summary
+This release adds `logile` and `mailserver` parameters to the monit configuration file.
+
+####Features
+- Add `logfile` parameter to `monit` class and to the template of configuration file.
+- Add `mailserver` parameter to `monit` class and to the template of configuration file.
+
+####Bugfixes
+- Bad variable use for configuration directory in `monit::check`
+
+##2015-04-01 - Release 0.3.0
 ###Summary
 
 This release adds support for RedHat family OSes.
