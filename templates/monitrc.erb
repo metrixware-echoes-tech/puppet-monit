@@ -2,7 +2,9 @@
 #
 set daemon <%= @check_interval %>
 set logfile <%= @logfile %>
+<%- unless @operatingsystemmajrelease == "5" and @osfamily == "RedHat" -%>
 set idfile /var/lib/monit/id
+<%- end -%>
 set statefile /var/lib/monit/state
 <%- if @mailserver -%>
 set mailserver <%= @mailserver %>
