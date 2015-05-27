@@ -74,6 +74,9 @@
 #   Custom mail-format options hash.
 #   Default: undef
 #
+# [*alert_emails*]
+#   Array of email address to send global alerts to.
+#   Default: []
 # === Examples
 #
 #  class { 'monit':
@@ -111,6 +114,7 @@ class monit (
   $logfile         = $monit::params::logfile,
   $mailserver      = $monit::params::mailserver,
   $mailformat      = $monit::params::mailformat,
+  $alert_emails    = $monit::params::alert_emails,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -138,6 +142,7 @@ class monit (
   if $mailformat {
     validate_hash($mailformat)
   }
+  validate_array($alert_emails)
 
   anchor { "${module_name}::begin": } ->
   class { "${module_name}::install": } ->
