@@ -7,6 +7,13 @@ set statefile /var/lib/monit/state
 <%- if @mailserver -%>
 set mailserver <%= @mailserver %>
 <%- end -%>
+<%- if @mailformat -%>
+set mail-format {
+<%- @mailformat.each do |key, value| -%>
+    <%= key %>: <%= value %>
+<%- end -%>
+}
+<%- end -%>
 set eventqueue
     basedir /var/lib/monit/events
     slots 100

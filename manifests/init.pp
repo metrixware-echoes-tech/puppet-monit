@@ -70,6 +70,10 @@
 #   If set to a string, alerts will be sent by email to this mailserver.
 #   Default: undef
 #
+# [*mailformat*]
+#   Custom mail-format options hash.
+#   Default: undef
+#
 # === Examples
 #
 #  class { 'monit':
@@ -106,6 +110,7 @@ class monit (
   $config_dir      = $monit::params::config_dir,
   $logfile         = $monit::params::logfile,
   $mailserver      = $monit::params::mailserver,
+  $mailformat      = $monit::params::mailformat,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -129,6 +134,9 @@ class monit (
   validate_string($logfile)
   if $mailserver {
     validate_string($mailserver)
+  }
+  if $mailformat {
+    validate_hash($mailformat)
   }
 
   anchor { "${module_name}::begin": } ->
