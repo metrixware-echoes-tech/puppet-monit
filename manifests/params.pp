@@ -17,6 +17,8 @@ class monit::params {
   $service_name    = 'monit'
   $logfile         = '/var/log/monit.log'
   $mailserver      = undef
+  $mailformat      = undef
+  $alert_emails    = []
 
   case $::osfamily {
     'Debian': {
