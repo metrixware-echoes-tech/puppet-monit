@@ -2,7 +2,7 @@
 #
 set daemon <%= @check_interval %>
 set logfile <%= @logfile %>
-<%- unless @operatingsystemmajrelease == "5" and @osfamily == "RedHat" -%>
+<%- if scope.function_versioncmp([@monit_version, '5']) >= 0 -%>
 set idfile /var/lib/monit/id
 <%- end -%>
 set statefile /var/lib/monit/state
