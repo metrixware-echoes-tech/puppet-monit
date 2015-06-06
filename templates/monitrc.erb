@@ -2,7 +2,9 @@
 #
 set daemon <%= @check_interval %>
 set logfile <%= @logfile %>
+<%- if scope.function_versioncmp([@monit_version, '5']) >= 0 -%>
 set idfile /var/lib/monit/id
+<%- end -%>
 set statefile /var/lib/monit/state
 <%- if @mailserver -%>
 set mailserver <%= @mailserver %>
