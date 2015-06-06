@@ -77,6 +77,7 @@
 # [*alert_emails*]
 #   Array of email address to send global alerts to.
 #   Default: []
+#
 # === Examples
 #
 #  class { 'monit':

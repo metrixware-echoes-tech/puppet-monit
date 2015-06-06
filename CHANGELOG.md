@@ -1,3 +1,14 @@
+##2015-06-06 - Release 0.5.0
+###Summary
+This release adds `mail-format` and `alert` parameters to the monit configuration file.
+
+####Features
+- Add `mailformat` parameter to `monit` class and to the template of configuration file.
+- Add `alert_emails` parameter to `monit` class and to the template of configuration file.
+
+####Bugfixes
+- `ìdfile` parameter does not exist for Monit 4
+
 ##2015-04-02 - Release 0.4.0
 ###Summary
 This release adds `logile` and `mailserver` parameters to the monit configuration file.
