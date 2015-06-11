@@ -19,6 +19,7 @@ class monit::params {
   $mailserver      = undef
   $mailformat      = undef
   $alert_emails    = []
+  $start_delay     = 0
 
   case $::osfamily {
     'Debian': {
