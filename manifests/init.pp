@@ -78,6 +78,29 @@
 #   Array of email address to send global alerts to.
 #   Default: []
 #
+# [*mmonit_address*]
+#   Remote address of an M/Monit server to be used by Monit agent for report.
+#   If set to undef, M/Monit connection is disabled.
+#   Default: undef
+#
+# [*mmonit_port*]
+#   Remote port of the M/Monit server
+#   Default: '8080'
+#
+# [*mmonit_user*]
+#   User to connect to the remote M/Monit server
+#   Default: 'monit'
+#
+# [*mmonit_password*]
+#   Password of the account used to connect to the remote M/Monit server
+#   Default: 'monit'
+#
+# [*mmonit_without_credential*]
+#   By default Monit registers credentials with M/Monit so M/Monit can smoothly
+#   communicate back to Monit and you don't have to register Monit credentials manually in M/Monit.
+#   It is possible to disable credential registration setting this option to 'true'.
+#   Default: false
+#
 # === Examples
 #
 #  class { 'monit':
@@ -97,25 +120,30 @@
 # Copyright 2014-2015 Echoes Technologies SAS, unless otherwise noted.
 #
 class monit (
-  $check_interval  = $monit::params::check_interval,
-  $httpd           = $monit::params::httpd,
-  $httpd_port      = $monit::params::httpd_port,
-  $httpd_address   = $monit::params::httpd_address,
-  $httpd_user      = $monit::params::httpd_user,
-  $httpd_password  = $monit::params::httpd_password,
-  $manage_firewall = $monit::params::manage_firewall,
-  $package_ensure  = $monit::params::package_ensure,
-  $package_name    = $monit::params::package_name,
-  $service_enable  = $monit::params::service_enable,
-  $service_ensure  = $monit::params::service_ensure,
-  $service_manage  = $monit::params::service_manage,
-  $service_name    = $monit::params::service_name,
-  $config_file     = $monit::params::config_file,
-  $config_dir      = $monit::params::config_dir,
-  $logfile         = $monit::params::logfile,
-  $mailserver      = $monit::params::mailserver,
-  $mailformat      = $monit::params::mailformat,
-  $alert_emails    = $monit::params::alert_emails,
+  $check_interval            = $monit::params::check_interval,
+  $httpd                     = $monit::params::httpd,
+  $httpd_port                = $monit::params::httpd_port,
+  $httpd_address             = $monit::params::httpd_address,
+  $httpd_user                = $monit::params::httpd_user,
+  $httpd_password            = $monit::params::httpd_password,
+  $manage_firewall           = $monit::params::manage_firewall,
+  $package_ensure            = $monit::params::package_ensure,
+  $package_name              = $monit::params::package_name,
+  $service_enable            = $monit::params::service_enable,
+  $service_ensure            = $monit::params::service_ensure,
+  $service_manage            = $monit::params::service_manage,
+  $service_name              = $monit::params::service_name,
+  $config_file               = $monit::params::config_file,
+  $config_dir                = $monit::params::config_dir,
+  $logfile                   = $monit::params::logfile,
+  $mailserver                = $monit::params::mailserver,
+  $mailformat                = $monit::params::mailformat,
+  $alert_emails              = $monit::params::alert_emails,
+  $mmonit_address            = $monit::params::mmonit_address,
+  $mmonit_port               = $monit::params::mmonit_port,
+  $mmonit_user               = $monit::params::mmonit_user,
+  $mmonit_password           = $monit::params::mmonit_password,
+  $mmonit_without_credential = $monit::params::mmonit_without_credential,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -144,6 +172,13 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
+  if $mmonit_server_address {
+    validate_string($mmonit_address)
+    validate_string($mmonit_port)
+    validate_string($mmonit_user)
+    validate_string($mmonit_password)
+    validate_bool($mmonit_without_credential)
+  }
 
   anchor { "${module_name}::begin": } ->
   class { "${module_name}::install": } ->
