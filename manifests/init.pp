@@ -81,6 +81,9 @@
 # [*mmonit_address*]
 #   Remote address of an M/Monit server to be used by Monit agent for report.
 #   If set to undef, M/Monit connection is disabled.
+#   WARNING: If this option is set, and Monit agent version is less than 5, then
+#            module will fail (this option is available in Monit Agent version 5
+#            and above.
 #   Default: undef
 #
 # [*mmonit_port*]
