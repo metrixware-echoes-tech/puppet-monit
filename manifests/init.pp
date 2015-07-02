@@ -144,6 +144,7 @@ class monit (
   $mmonit_user               = $monit::params::mmonit_user,
   $mmonit_password           = $monit::params::mmonit_password,
   $mmonit_without_credential = $monit::params::mmonit_without_credential,
+  $monit_version             = $monit::params::monit_version,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -172,7 +173,12 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
-  if $mmonit_server_address {
+  
+  if $mmonit_address {
+    if $monit_version == 4 {
+      # if $mmonit_address != undef => fails (option is not compatible with monit < 5
+      fail('M/Monit option (via mmonit_* parameters needs Monit agent >= 5')
+    }
     validate_string($mmonit_address)
     validate_string($mmonit_port)
     validate_string($mmonit_user)
