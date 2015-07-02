@@ -32,15 +32,15 @@ class monit::params {
           $service_hasstatus    = true
         }
       }
-      $monit_version = 5
+      $monit_version = '5'
       $config_file = '/etc/monit/monitrc'
       $config_dir  = '/etc/monit/conf.d'
     }
     'RedHat': {
-      if versioncmp($::operatingsystemrelease, 6) < 0 {
-        $monit_version = 4
+      if versioncmp($::operatingsystemrelease, '6') < 0 {
+        $monit_version = '4'
       } else {
-        $monit_version = 5
+        $monit_version = '5'
       }
       $service_hasstatus = true
       $config_file       = '/etc/monit.conf'
