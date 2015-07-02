@@ -178,7 +178,7 @@ class monit (
   validate_array($alert_emails)
   
   if $mmonit_address {
-    if $monit_version == 4 {
+    if $monit_version == '4' {
       # if $mmonit_address != undef => fails (option is not compatible with monit < 5
       fail('M/Monit option (via mmonit_* parameters needs Monit agent >= 5')
     }
