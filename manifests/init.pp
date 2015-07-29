@@ -22,10 +22,12 @@
 #
 # [*httpd_user*]
 #   User to access the Monit Dashboard
+#   If you set both user and password to an empty string, authentication is disabled.
 #   Default: 'admin'
 #
 # [*httpd_password*]
 #   Password to access the Monit Dashboard
+#   If you set both user and password to an empty string, authentication is disabled.
 #   Default: 'monit'
 #
 # [*manage_firewall*]

@@ -29,7 +29,9 @@ set eventqueue
 set httpd port <%= @httpd_port %> and
    use address <%= @httpd_address %>
    allow 0.0.0.0/0.0.0.0
+   <%- if !@httpd_user.empty? && !@httpd_password.empty? -%>
    allow <%= @httpd_user %>:<%= @httpd_password %>
+   <%- end -%>
 <%- end -%>
 <%- if @mmonit_address  -%>
 set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_address %>:<%= @mmonit_port %>/collector
