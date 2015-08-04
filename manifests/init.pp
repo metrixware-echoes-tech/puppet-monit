@@ -78,6 +78,11 @@
 #   Array of email address to send global alerts to.
 #   Default: []
 #
+# [*start_delay*]
+#   If set, Monit will wait the specified time in seconds before it starts checking services.
+#   Requires at least Monit 5.0.
+#   Default: 0
+#
 # === Examples
 #
 #  class { 'monit':
@@ -116,6 +121,7 @@ class monit (
   $mailserver      = $monit::params::mailserver,
   $mailformat      = $monit::params::mailformat,
   $alert_emails    = $monit::params::alert_emails,
+  $start_delay     = $monit::params::start_delay,
 ) inherits monit::params {
   if ! is_integer($check_interval) {
     fail('Invalid type. check_interval param should be an integer.')
@@ -144,6 +150,10 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
+  validate_integer($start_delay, undef, 0)
+  if($start_delay > 0 and $::monit_version < '5') {
+    fail('Monit option "start_delay" requires at least Monit 5.0"')
+  }
 
   anchor { "${module_name}::begin": } ->
   class { "${module_name}::install": } ->
