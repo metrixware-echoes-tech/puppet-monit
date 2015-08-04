@@ -172,7 +172,7 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
-  if $mmonit_server_address {
+  if $mmonit_address {
     validate_string($mmonit_address)
     validate_string($mmonit_port)
     validate_string($mmonit_user)

@@ -51,9 +51,9 @@ class monit::params {
       $config_dir        = '/etc/monit.d'
 
       if versioncmp($::operatingsystemrelease, 7) < 0 {
-	$config_file       = '/etc/monit.conf'
+        $config_file = '/etc/monit.conf'
       } else {
-        $config_file       = '/etc/monitrc'
+        $config_file = '/etc/monitrc'
       }
 
 
