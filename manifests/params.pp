@@ -51,7 +51,7 @@ class monit::params {
       $service_hasstatus = true
       $config_dir        = '/etc/monit.d'
 
-      if versioncmp($::operatingsystemrelease, 7) < 0 {
+      if versioncmp($::operatingsystemrelease, '7') < 0 {
         $config_file = '/etc/monit.conf'
       } else {
         $config_file = '/etc/monitrc'
