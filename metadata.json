@@ -1,6 +1,6 @@
 {
   "name": "echoes-monit",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "author": "Echoes Technologies",
   "summary": "Puppet module to manage monit installation and configuration",
   "license": "Apache-2.0",
@@ -30,14 +30,17 @@
       "operatingsystem": "Redhat",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "5",
-        "6"
+        "6",
+        "7"
+
       ]
     }
   ],
