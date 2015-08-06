@@ -1,6 +1,6 @@
 # monit
 
-[![Build Status](https://travis-ci.org/echoes-tech/puppet-monit.svg?branch=master)](https://travis-ci.org/echoes-tech/puppet-monit)
+[![Build Status](https://travis-ci.org/echoes-tech/puppet-monit.svg?branch=master)](https://travis-ci.org/echoes-tech/puppet-monit) [![Flattr Button](https://api.flattr.com/button/flattr-badge-large.png "Flattr This!")](https://flattr.com/submit/auto?user_id=echoes&title=Puppet%20module%20to%20manage%20Monit&url=https://forge.puppetlabs.com/echoes/monit "Puppet module to manage Monit installation and configuration")
 
 #### Table of Contents
 
