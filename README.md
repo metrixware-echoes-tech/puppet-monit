@@ -108,108 +108,113 @@ monit::check { 'ntp':
 * monit::service: Handles the service.
 * monit::firewall: Handles the firewall configuration.
 
-### Parameters
+#### Parameters
 
 The following parameters are available in the `::monit` class:
 
-#### `alert_emails`
+##### `alert_emails`
 
 Specifies one or more email addresses to send global alerts to. Valid options: array. Default value: []
 
-#### `check_interval`
+##### `check_interval`
 
 Specifies the interval between two checks of Monit. Valid options: numeric. Default value: 120
 
-#### `config_file`
+##### `config_file`
 
 Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
 
-#### `config_dir`
+##### `config_dir`
 
 Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
 
-#### `httpd`
+##### `httpd`
 
 Specifies whether to enable the Monit Dashboard. Valid options: 'true' or 'false'. Default value: 'false'
 
-#### `httpd_port`
+##### `httpd_port`
 
 Specifies the port of the Monit Dashboard. Valid options: numeric. Default value: 2812
 
-#### `httpd_address`
+##### `httpd_address`
 
 Specifies the IP address of the Monit Dashboard. Valid options: string. Default value: 'locahost'
 
-#### `httpd_user`
+##### `httpd_user`
 
 Specifies the user to access the Monit Dashboard. Valid options: string. Default value: 'admin'
 
-#### `httpd_password`
+##### `httpd_password`
 
 Specifies the password to access the Monit Dashboard. Valid options: string. Default value: 'monit'
 
-#### `logfile`
+##### `logfile`
 
 Specifies the logfile directive value. Valid options: string. Default value: '/var/log/monit.log'
+
 Set to eg 'syslog facility log_daemon' to use syslog instead of direct file logging.
 
-#### `mailserver`
+##### `mailserver`
 
 If set to a string, alerts will be sent by email to this mailserver. Valid options: string. Default value: undef
+
 For more details, see: https://mmonit.com/monit/documentation/monit.html#Setting-a-mail-server-for-alert-delivery
 
-#### `mailformat`
+##### `mailformat`
 
 Specifies the alert message format. Valid options: hash. Default value: undef
+
 For more details, see: https://mmonit.com/monit/documentation/monit.html#Message-format
 
-#### `manage_firewall`
+##### `manage_firewall`
 
 If true and if puppetlabs-firewall module is present, Puppet manages firewall to allow HTTP access for Monit Dashboard. Valid options: 'true' or 'false'. Default value: 'false'
 
-#### `mmonit_address` *Requires at least Monit 5.0*
+##### `mmonit_address` *Requires at least Monit 5.0*
 
 Specifies the remote address of an M/Monit server to be used by Monit agent for report. If set to undef, M/Monit connection is disabled. Valid options: string. Default value: undef
 
-#### `mmonit_port` *Requires at least Monit 5.0*
+##### `mmonit_port` *Requires at least Monit 5.0*
 
 Specifies the remote port of the M/Monit server. Valid options: numeric. Default value: 8080
 
-#### `mmonit_user` *Requires at least Monit 5.0*
+##### `mmonit_user` *Requires at least Monit 5.0*
 
 Specifies the user to connect to the remote M/Monit server. Valid options: string. Default value: 'monit'
+
 If you set both user and password to an empty string, authentication is disabled.
 
-#### `mmonit_password` *Requires at least Monit 5.0*
+##### `mmonit_password` *Requires at least Monit 5.0*
 
 Specifies the password of the account used to connect to the remote M/Monit server. Valid options: string. Default value: 'monit'
+
 If you set both user and password to an empty string, authentication is disabled.
 
-#### `mmonit_without_credential` *Requires at least Monit 5.0*
+##### `mmonit_without_credential` *Requires at least Monit 5.0*
 
 By default Monit registers credentials with M/Monit so M/Monit can smoothly communicate back to Monit and you don't have to register Monit credentials manually in M/Monit. It is possible to disable credential registration setting this option to 'true'. Valid options: 'true' or 'false'. Default value: 'false'
 
-####`package_ensure`
+##### `package_ensure`
 
 Tells Puppet whether the Monit package should be installed, and what version. Valid options: 'present', 'latest', or a specific version number. Default value: 'present'
 
-####`package_name`
+##### `package_name`
 
 Tells Puppet what Monit package to manage. Valid options: string. Default value: 'monit'
 
-####`service_ensure`
+##### `service_ensure`
 
 Tells Puppet whether the Monit service should be running. Valid options: 'running' or 'stopped'. Default value: 'running'
 
-####`service_manage`
+##### `service_manage`
 
 Tells Puppet whether to manage the Monit service. Valid options: 'true' or 'false'. Default value: 'true'
 
-####`service_name`
+##### `service_name`
 
 Tells Puppet what Monit service to manage. Valid options: string. Default value: 'monit'
 
-#### `start_delay` *Requires at least Monit 5.0*
+##### `start_delay` *Requires at least Monit 5.0*
 
 If set, Monit will wait the specified time in seconds before it starts checking services. Valid options: numeric. Default value: 0
 
@@ -219,27 +224,27 @@ If set, Monit will wait the specified time in seconds before it starts checking 
 
 * monit::check: Adds a Monit check.
 
-### Parameters
+#### Parameters
 
 The following parameters are available in the `::monit::check` define:
 
-#### `ensure`
+##### `ensure`
 
 Tells Puppet whether the check should exist. Valid options: 'present', 'absent'. Default value: present
 
-#### `source`
+##### `source`
 
 Tells Puppet what is the path of the configuration file. Valid options: string. Exclusive with the `content` parameter. Default value: undef
 
-#### `content`
+##### `content`
 
 Specifies the content of the configuration file. Valid options: string. Exclusive with the `source` parameter. Default value: undef
 
-#### `package_name`
+##### `package_name`
 
 Tells Puppet which Monit package is required. Valid options: string. Default value: 'monit'
 
-#### `service_name`
+##### `service_name`
 
 Tells Puppet which Monit service will be notify. Valid options: string. Default value: 'monit'
 
