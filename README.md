@@ -1,6 +1,9 @@
 # monit
 
-[![Build Status](https://travis-ci.org/echoes-tech/puppet-monit.svg?branch=master)](https://travis-ci.org/echoes-tech/puppet-monit) [![Flattr Button](https://api.flattr.com/button/flattr-badge-large.png "Flattr This!")](https://flattr.com/submit/auto?user_id=echoes&title=Puppet%20module%20to%20manage%20Monit&url=https://forge.puppetlabs.com/echoes/monit "Puppet module to manage Monit installation and configuration")
+[![Build Status](https://travis-ci.org/echoes-tech/puppet-monit.svg?branch=master)]
+(https://travis-ci.org/echoes-tech/puppet-monit)
+[![Flattr Button](https://api.flattr.com/button/flattr-badge-large.png "Flattr This!")]
+(https://flattr.com/submit/auto?user_id=echoes&url=https://forge.puppetlabs.com/echoes/monit&title=Puppet%20module%20to%20manage%20Monit&description=This%20module%20installs%20and%20configures%20Monit.%20It%20allows%20you%20to%20enable%20HTTP%20Dashboard%20an%20to%20add%20check%20from%20a%20file.&lang=en_GB&category=software "Puppet module to manage Monit installation and configuration")
 
 #### Table of Contents
 
