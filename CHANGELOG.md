@@ -4,9 +4,8 @@ This release updates metadata to support new version of RedHat family OSes, as w
 
 #### Features
 - Added support to RedHat family OSes version 7.
-- Added configuration option to set an M/Monit report server in Monit config file.
-- Added support for start delay parameter.
 - Added configuration option to set an M/Monit report server in Monit configuration file.
+- Added support for start delay parameter.
 - Made HTTPd authentication by user and password optional.
 
 #### Tests
