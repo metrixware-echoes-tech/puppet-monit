@@ -15,7 +15,8 @@
     * [Remove a check](#remove-a-check)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 6. [Limitations - OS compatibility, etc.](#limitations)
-7. [Contributors](#contributors)
+7. [Development - Guide for contributing to the module](#development)
+8. [Contributors](#contributors)
 
 ## Overview
 
@@ -245,6 +246,12 @@ Tells Puppet which Monit service will be notify. Valid options: string. Default 
 ## Limitations
 
 RedHat and Debian family OSes are officially supported. Tested and built on Debian and CentOS.
+
+##Development
+
+[Echoes Technologies](https://www.echoes-tech.com) modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great.
+
+[Fork this module on GitHub](https://github.com/echoes-tech/puppet-monit/fork)
 
 ## Contributors
 
