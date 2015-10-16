@@ -53,7 +53,7 @@ class monit (
   }
   validate_array($alert_emails)
   validate_integer($start_delay, undef, 0)
-  if($start_delay > 0 and $::monit_version < '5') {
+  if($start_delay > 0 and $::monit::params::monit_version < '5') {
     fail('Monit option "start_delay" requires at least Monit 5.0"')
   }
   if $mmonit_address {
