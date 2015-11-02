@@ -24,7 +24,7 @@ Allowed values are 'present' and 'absent'."
     validate_string($content)
   }
 
-  include monit::params
+  include ::monit::params
 
   file { "${monit::config_dir}/${name}":
     ensure  => $ensure,

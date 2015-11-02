@@ -52,7 +52,7 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
-  validate_integer($start_delay, undef, 0)
+  validate_integer($start_delay, '', 0)
   if($start_delay > 0 and $::monit_version < '5') {
     fail('Monit option "start_delay" requires at least Monit 5.0"')
   }
