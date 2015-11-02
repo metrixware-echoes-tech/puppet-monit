@@ -1,18 +1,15 @@
+# == Define: monit::check
+#
 define monit::check (
-  $ensure       = present,
-  $source       = undef,
-  $content      = undef,
-  $package_name = 'monit',
-  $service_name = 'monit',
+  $ensure  = present,
+  $source  = undef,
+  $content = undef,
 ) {
-  validate_re (
-    $ensure,
-    '^(present|absent)$',
-    "${ensure} is not supported for ensure. \
-Allowed values are 'present' and 'absent'."
-  )
-  validate_string($package_name)
-  validate_string($service_name)
+
+  include ::monit
+
+  validate_re($ensure, '^(present|absent)$',
+    "monit::check::ensure is <${ensure}> and must be 'present' or 'absent'.")
 
   if $source and $content {
     fail 'Parameters source and content are mutually exclusive'
@@ -24,8 +21,6 @@ Allowed values are 'present' and 'absent'."
     validate_string($content)
   }
 
-  include ::monit::params
-
   file { "${monit::config_dir}/${name}":
     ensure  => $ensure,
     owner   => 0,
@@ -33,7 +28,7 @@ Allowed values are 'present' and 'absent'."
     mode    => '0644',
     source  => $source,
     content => $content,
-    notify  => Service[$service_name],
-    require => Package[$package_name],
+    require => Package[$monit::package_name],
+    notify  => Service[$monit::service_name],
   }
 }

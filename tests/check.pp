@@ -1,8 +1,4 @@
-include monit
-
-monit::check { 'ntp':
-  source => "puppet:///modules/${module_name}/ntp",
-}
+include ::monit
 
 monit::check { 'fake':
   content => 'fake content for the fake service check',

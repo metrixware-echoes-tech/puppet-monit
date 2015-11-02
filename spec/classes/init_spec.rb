@@ -13,11 +13,12 @@ describe 'monit', :type => 'class' do
       should contain_service('monit')
     }
   end
-  
+
   context "On a RedHat OS with no package name specified" do
     let :facts do
       {
-        :osfamily => 'RedHat'
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '6',
       }
     end
 
@@ -38,18 +39,4 @@ describe 'monit', :type => 'class' do
       expect { should raise_error(Puppet::Error) }
     }
   end
-
-#  context "With a package name specified" do
-#    let :params do
-#      {
-#        :package_name => 'abcd'
-#      }
-#    end
-#
-#    it {
-#      should contain_package('monit').with( { 'name' => 'abcd' } )
-#      should contain_service('monit').with( { 'name' => 'abcd' } )
-#    }
-#  end
-
 end
