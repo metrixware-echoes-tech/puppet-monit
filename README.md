@@ -38,10 +38,13 @@ It allows you to enable HTTP Dashboard an to add check from a file.
 **WARNING:** For RedHat systems, you may need to add an additional repository like the [EPEL repository](http://fedoraproject.org/wiki/EPEL).
 You can use the module [stahnma-epel](https://forge.puppetlabs.com/stahnma/epel) to do this.
 
+Supports Puppet v3 (optionally with future parser) and v4 with Ruby versions
+1.8.7 (Puppet v3 only), 1.9.3, 2.0.0 and 2.1.0.
+
 ### Beginning with monit
 
 ```puppet
-include 'monit'
+include ::monit
 ```
 
 ## Usage

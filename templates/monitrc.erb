@@ -5,7 +5,7 @@ set daemon <%= @check_interval %>
 with start delay <%= @start_delay %>
 <%- end -%>
 set logfile <%= @logfile %>
-<%- if scope.function_versioncmp([@monit_version, '5']) >= 0 -%>
+<%- if scope.function_versioncmp([@monit_version_real, '5']) >= 0 -%>
 set idfile /var/lib/monit/id
 <%- end -%>
 set statefile /var/lib/monit/state
@@ -38,4 +38,4 @@ set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_addres
    <%- if @mmonit_without_credential -%>and register without credentials<%- end -%>
 <%- end -%>
 
-include <%= @config_dir %>/*
+include <%= @config_dir_real %>/*

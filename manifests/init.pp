@@ -1,37 +1,37 @@
+# == Class: monit
+#
 class monit (
-  $check_interval            = $monit::params::check_interval,
-  $httpd                     = $monit::params::httpd,
-  $httpd_port                = $monit::params::httpd_port,
-  $httpd_address             = $monit::params::httpd_address,
-  $httpd_user                = $monit::params::httpd_user,
-  $httpd_password            = $monit::params::httpd_password,
-  $manage_firewall           = $monit::params::manage_firewall,
-  $package_ensure            = $monit::params::package_ensure,
-  $package_name              = $monit::params::package_name,
-  $service_enable            = $monit::params::service_enable,
-  $service_ensure            = $monit::params::service_ensure,
-  $service_manage            = $monit::params::service_manage,
-  $service_name              = $monit::params::service_name,
-  $config_file               = $monit::params::config_file,
-  $config_dir                = $monit::params::config_dir,
-  $logfile                   = $monit::params::logfile,
-  $mailserver                = $monit::params::mailserver,
-  $mailformat                = $monit::params::mailformat,
-  $alert_emails              = $monit::params::alert_emails,
-  $start_delay               = $monit::params::start_delay,
-  $mmonit_address            = $monit::params::mmonit_address,
-  $mmonit_port               = $monit::params::mmonit_port,
-  $mmonit_user               = $monit::params::mmonit_user,
-  $mmonit_password           = $monit::params::mmonit_password,
-  $mmonit_without_credential = $monit::params::mmonit_without_credential,
-) inherits monit::params {
-  if ! is_integer($check_interval) {
-    fail('Invalid type. check_interval param should be an integer.')
-  }
+  $check_interval            = 120,
+  $httpd                     = false,
+  $httpd_port                = 2812,
+  $httpd_address             = 'localhost',
+  $httpd_user                = 'admin',
+  $httpd_password            = 'monit',
+  $manage_firewall           = false,
+  $package_ensure            = 'present',
+  $package_name              = 'monit',
+  $service_enable            = true,
+  $service_ensure            = 'running',
+  $service_manage            = true,
+  $service_name              = 'monit',
+  $logfile                   = '/var/log/monit.log', # now also accepts 'syslog'
+  $mailserver                = undef,
+  $mailformat                = undef,
+  $alert_emails              = [],
+  $start_delay               = 0,
+  $mmonit_address            = undef,
+  $mmonit_port               = '8080',
+  $mmonit_user               = 'monit',
+  $mmonit_password           = 'monit',
+  $mmonit_without_credential = false,
+  $config_file               = 'USE_DEFAULTS', # additional param to be documented
+  $config_dir                = 'USE_DEFAULTS', # additional param to be documented
+  $config_dir_purge          = false, # additional param to be documented
+) {
+
+  validate_integer($check_interval)
   validate_bool($httpd)
-  if ! is_integer($httpd_port) {
-    fail('Invalid type. http_port param should be an integer.')
-  }
+  validate_integer($httpd_port)
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
@@ -42,32 +42,169 @@ class monit (
   validate_string($service_ensure)
   validate_bool($service_manage)
   validate_string($service_name)
-  validate_string($config_file)
-  validate_string($config_dir)
-  validate_string($logfile)
-  if $mailserver {
-    validate_string($mailserver)
-  }
-  if $mailformat {
-    validate_hash($mailformat)
-  }
-  validate_array($alert_emails)
-  validate_integer($start_delay, undef, 0)
-  if($start_delay > 0 and $::monit_version < '5') {
-    fail('Monit option "start_delay" requires at least Monit 5.0"')
-  }
-  if $mmonit_address {
-    validate_string($mmonit_address)
-    validate_string($mmonit_port)
-    validate_string($mmonit_user)
-    validate_string($mmonit_password)
-    validate_bool($mmonit_without_credential)
+
+  if $logfile != 'syslog' {
+    validate_absolute_path($logfile)
   }
 
-  anchor { "${module_name}::begin": } ->
-  class { "${module_name}::install": } ->
-  class { "${module_name}::config": } ~>
-  class { "${module_name}::service": } ->
-  class { "${module_name}::firewall": }->
-  anchor { "${module_name}::end": }
+  if $mailserver != undef {
+    validate_string($mailserver)
+  }
+
+  if $mailformat != undef {
+    validate_hash($mailformat)
+  }
+
+  validate_array($alert_emails)
+
+  if $mmonit_address != undef {
+    validate_string($mmonit_address)
+  }
+
+  validate_string($mmonit_port)
+  validate_string($mmonit_user)
+  validate_string($mmonit_password)
+  validate_bool($mmonit_without_credential)
+
+  if is_string($config_dir_purge) == true {
+    $config_dir_purge_bool = str2bool($config_dir_purge)
+  } else {
+    $config_dir_purge_bool = $config_dir_purge
+  }
+  validate_bool($config_dir_purge_bool)
+
+  case $::osfamily {
+    default: {
+      fail("monit supports osfamilies Debian and RedHat. Detected osfamily is <${::osfamily}>.")
+    }
+    'Debian': {
+      $monit_version = '5'
+      $default_config_file   = '/etc/monit/monitrc'
+      $default_config_dir    = '/etc/monit/conf.d'
+
+      case $::lsbdistcodename {
+        'squeeze', 'lucid': {
+          $default_file_content = 'startup=1'
+          $service_hasstatus    = false
+        }
+        default: {
+          $default_file_content = 'START=yes'
+          $service_hasstatus    = true
+        }
+      }
+    }
+    'RedHat': {
+      $service_hasstatus = true
+      $default_config_dir        = '/etc/monit.d'
+
+      case $::operatingsystemmajrelease {
+        default: {
+          fail("monit supports EL 5, 6 and 7. Detected operatingsystemmajrelease is <${::operatingsystemmajrelease}>.")
+        }
+        '5': {
+          $monit_version = '4'
+          $default_config_file   = '/etc/monit.conf'
+        }
+        '6': {
+          $monit_version = '5'
+          $default_config_file   = '/etc/monit.conf'
+        }
+        '7': {
+          $monit_version = '5'
+          $default_config_file   = '/etc/monitrc'
+        }
+      }
+    }
+  }
+
+  validate_integer($start_delay, '', 0)
+
+  # Use the monit_version fact if available, else use the default for the
+  # platform.
+  if $::monit_version {
+    $monit_version_real = $::monit_version
+  } else {
+    $monit_version_real = $monit_version
+  }
+
+  if($start_delay > 0 and versioncmp($monit_version_real,'5') < 0) {
+    fail("start_delay requires at least Monit 5.0. Detected version is <${monit_version_real}>.")
+  }
+
+  if $config_dir == 'USE_DEFAULTS' {
+    $config_dir_real = $default_config_dir
+  } else {
+    $config_dir_real = $config_dir
+  }
+  validate_absolute_path($config_dir_real)
+
+  if $config_file == 'USE_DEFAULTS' {
+    $config_file_real = $default_config_file
+  } else {
+    $config_file_real = $config_file
+  }
+  validate_absolute_path($config_file_real)
+
+  package { 'monit':
+    ensure => $package_ensure,
+    name   => $package_name,
+  }
+
+  file { '/var/lib/monit':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    notify => Service['monit'],
+  }
+
+  file { 'monit_config_dir':
+    ensure  => directory,
+    path    => $config_dir_real,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    purge   => $config_dir_purge_bool,
+    recurse => $config_dir_purge_bool,
+    require => Package['monit'],
+    notify  => Service['monit'],
+  }
+
+  file { 'monit_config':
+    ensure  => file,
+    path    => $config_file_real,
+    content => template('monit/monitrc.erb'),
+    owner   => 0,
+    group   => 0,
+    mode    => '0600',
+    require => Package['monit'],
+    notify  => Service['monit'],
+  }
+
+  if $service_manage {
+    if $::osfamily == 'Debian' {
+      file { '/etc/default/monit':
+        content => $default_file_content,
+        before  => Service['monit'],
+      }
+    }
+
+    service { 'monit':
+      ensure     => $service_ensure,
+      name       => $service_name,
+      enable     => $service_enable,
+      hasrestart => true,
+      hasstatus  => $service_hasstatus,
+    }
+  }
+
+  if $httpd and $manage_firewall {
+    if defined('::firewall') {
+      firewall { "${httpd_port} allow Monit inbound traffic":
+        action => 'accept',
+        dport  => $httpd_port,
+        proto  => 'tcp',
+      }
+    }
+  }
 }
