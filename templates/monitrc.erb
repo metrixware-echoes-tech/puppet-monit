@@ -38,4 +38,4 @@ set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_addres
    <%- if @mmonit_without_credential -%>and register without credentials<%- end -%>
 <%- end -%>
 
-include <%= @config_dir_real %>/*
+include <%= @config_dir_real -%>/*

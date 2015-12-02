@@ -1,7 +1,6 @@
 require 'spec_helper_acceptance'
 
 describe 'monit class' do
-
   context 'default parameters' do
     # Using puppet_apply as a helper
     it 'should work with no errors' do

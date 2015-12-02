@@ -12,14 +12,12 @@ RSpec.configure do |c|
 
     # Store any environment variables away to be restored later
     @old_env = {}
-    ENV.each_key {|k| @old_env[k] = ENV[k]}
+    ENV.each_key { |k| @old_env[k] = ENV[k] }
 
     if Gem::Version.new(`puppet --version`) >= Gem::Version.new('3.5')
-      Puppet.settings[:strict_variables]=true
+      Puppet.settings[:strict_variables] = true
     end
-    if ENV['PARSER']
-      Puppet.settings[:parser]=ENV['PARSER']
-    end
+    Puppet.settings[:parser] = ENV['PARSER'] if ENV['PARSER']
   end
 
   c.after :each do

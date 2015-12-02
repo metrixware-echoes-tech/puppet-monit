@@ -78,40 +78,43 @@ class monit (
       fail("monit supports osfamilies Debian and RedHat. Detected osfamily is <${::osfamily}>.")
     }
     'Debian': {
-      $monit_version = '5'
-      $default_config_file   = '/etc/monit/monitrc'
-      $default_config_dir    = '/etc/monit/conf.d'
+      $monit_version       = '5'
+      $default_config_file = '/etc/monit/monitrc'
+      $default_config_dir  = '/etc/monit/conf.d'
 
       case $::lsbdistcodename {
+        default: {
+          fail("monit supports Debian 6 (squeeze) and 7 (wheezy) and Ubuntu 10.04 (lucid), 12.04 (precise) and 14.04 (trusty). Detected lsbdistcodename is <${::lsbdistcodename}>.")
+        }
         'squeeze', 'lucid': {
           $default_file_content = 'startup=1'
           $service_hasstatus    = false
         }
-        default: {
+        'wheezy','precise','trusty': {
           $default_file_content = 'START=yes'
           $service_hasstatus    = true
         }
       }
     }
     'RedHat': {
-      $service_hasstatus = true
-      $default_config_dir        = '/etc/monit.d'
+      $service_hasstatus  = true
+      $default_config_dir = '/etc/monit.d'
 
       case $::operatingsystemmajrelease {
         default: {
           fail("monit supports EL 5, 6 and 7. Detected operatingsystemmajrelease is <${::operatingsystemmajrelease}>.")
         }
         '5': {
-          $monit_version = '4'
-          $default_config_file   = '/etc/monit.conf'
+          $monit_version       = '4'
+          $default_config_file = '/etc/monit.conf'
         }
         '6': {
-          $monit_version = '5'
-          $default_config_file   = '/etc/monit.conf'
+          $monit_version       = '5'
+          $default_config_file = '/etc/monit.conf'
         }
         '7': {
-          $monit_version = '5'
-          $default_config_file   = '/etc/monitrc'
+          $monit_version       = '5'
+          $default_config_file = '/etc/monitrc'
         }
       }
     }

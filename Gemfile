@@ -6,9 +6,6 @@ group :development, :unit_tests do
   gem 'metadata-json-lint',                               :require => false
   gem 'puppetlabs_spec_helper',                           :require => false
   gem 'puppet-lint',                                      :require => false
-  gem 'simplecov',                                        :require => false
-  gem 'puppet_facts',                                     :require => false
-  gem 'json',                                             :require => false
   gem 'puppet-lint-absolute_classname-check',             :require => false
   gem 'puppet-lint-alias-check',                          :require => false
   gem 'puppet-lint-empty_string-check',                   :require => false
@@ -41,8 +38,11 @@ else
 end
 
 # rspec must be v2 for ruby 1.8.7
-if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
+if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
   gem 'rspec', '~> 2.0'
+else
+  # rubocop requires ruby >= 1.9
+  gem 'rubocop'
 end
 
 # vim:ft=ruby
