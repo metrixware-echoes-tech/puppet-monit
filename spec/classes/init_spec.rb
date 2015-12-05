@@ -145,7 +145,6 @@ describe 'monit' do
             'owner'  => 'root',
             'group'  => 'root',
             'mode'   => '0755',
-            'notify' => 'Service[monit]',
           })
         end
 
@@ -159,7 +158,6 @@ describe 'monit' do
             'purge'   => false,
             'recurse' => false,
             'require' => 'Package[monit]',
-            'notify'  => 'Service[monit]',
           })
         end
 
@@ -171,7 +169,6 @@ describe 'monit' do
             'group'   => '0',
             'mode'    => '0600',
             'require' => 'Package[monit]',
-            'notify'  => 'Service[monit]',
           })
         end
 
@@ -191,6 +188,11 @@ describe 'monit' do
             'enable'     => true,
             'hasrestart' => true,
             'hasstatus'  => v[:service_hasstatus],
+            'subscribe'  => [
+              'File[/var/lib/monit]',
+              'File[monit_config_dir]',
+              'File[monit_config]',
+            ]
           })
         end
       end
