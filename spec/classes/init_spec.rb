@@ -275,7 +275,7 @@ describe 'monit' do
 
     validations = {
       'absolute_path' => {
-        :name    => %w(config_file config_dir),
+        :name    => %w(config_file config_dir logfile),
         :valid   => %w(/absolute/filepath /absolute/directory/),
         :invalid => ['invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }],
         :message => 'is not an absolute path',
@@ -285,6 +285,30 @@ describe 'monit' do
         :valid   => [%w(valid array)],
         :invalid => ['string', { 'ha' => 'sh' }, 3, 2.42, true],
         :message => 'is not an Array',
+      },
+      'bool' => {
+        :name    => %w(httpd manage_firewall service_enable service_manage mmonit_without_credential),
+        :valid   => [true, false],
+        :invalid => ['true', 'false', 'invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
+        :message => 'is not a boolean',
+      },
+      'bool_stringified' => {
+        :name    => %w(config_dir_purge),
+        :valid   => [true, 'true', false, 'false'],
+        :invalid => ['invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
+        :message => '(is not a boolean|Unknown type of boolean)',
+      },
+      'hash' => {
+        :name    => %w(mailformat ),
+        :valid   => [{ 'ha' => 'sh' }],
+        :invalid => ['string', 3, 2.42, %w(array), true, false, nil],
+        :message => 'is not a Hash',
+      },
+      'integer_stringified' => {
+        :name    => %w(check_interval httpd_port start_delay),
+        :valid   => [242, '242'],
+        :invalid => [2.42, 'invalid', %w(array), { 'ha' => 'sh ' }, true, false, nil],
+        :message => 'Expected.*to be an Integer',
       },
       'string' => {
         :name    => %w(
