@@ -130,7 +130,7 @@ class monit (
     $monit_version_real = $monit_version
   }
 
-  if($start_delay > 0 and versioncmp($monit_version_real,'5') < 0) {
+  if($start_delay + 0 > 0 and versioncmp($monit_version_real,'5') < 0) {
     fail("start_delay requires at least Monit 5.0. Detected version is <${monit_version_real}>.")
   }
 
