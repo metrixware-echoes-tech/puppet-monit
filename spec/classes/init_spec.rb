@@ -259,62 +259,66 @@ describe 'monit' do
 
   describe 'variable type and content validations' do
     # set needed custom facts and variables
-    let(:facts) { {
+    let(:facts) do
+      {
        :osfamily                  => 'Debian',
        :operatingsystemrelease    => '6.0',
        :operatingsystemmajrelease => '6',
        :lsbdistcodename           => 'squeeze',
-    } }
-    let(:validation_params) { {
-#      :param => 'value',
-    } }
+      }
+    end
+    let(:validation_params) do
+      {
+        #:param => 'value',
+      }
+    end
 
     validations = {
+      'absolute_path' => {
+        :name    => %w(config_file config_dir),
+        :valid   => %w(/absolute/filepath /absolute/directory/),
+        :invalid => ['invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }],
+        :message => 'is not an absolute path',
+      },
       'array' => {
-        :name    => ['alert_emails'],
-        :valid   => [['valid','array']],
-        :invalid => ['string',a={'ha'=>'sh'},3,2.42,true],
+        :name    => %w(alert_emails),
+        :valid   => [%w(valid array)],
+        :invalid => ['string', { 'ha' => 'sh' }, 3, 2.42, true],
         :message => 'is not an Array',
       },
       'string' => {
-        :name    => ['httpd_address','httpd_user','httpd_password','package_ensure',
-                      'package_name','service_name','mailserver', 'mmonit_address',
-                      'mmonit_port','mmonit_user','mmonit_password'],
+        :name    => %w(
+          httpd_address httpd_user httpd_password package_ensure package_name service_name
+          mailserver mmonit_address mmonit_port mmonit_user mmonit_password
+        ),
         :valid   => ['present'],
-        :invalid => [['array'],a={'ha'=>'sh'}],
+        :invalid => [%w(array), { 'ha' => 'sh' }],
         :message => 'is not a string',
       },
       'service_ensure_string' => {
-        :name    => ['service_ensure'],
+        :name    => %w(service_ensure),
         :valid   => ['running'],
-        :invalid => [['array'],a={'ha'=>'sh'}],
+        :invalid => [%w(array), { 'ha' => 'sh' }],
         :message => 'is not a string',
-      },
-      'absolute_path' => {
-        :name    => ['config_file','config_dir'],
-        :valid   => ['/absolute/filepath','/absolute/directory/'],
-        :invalid => ['invalid',3,2.42,['array'],a={'ha'=>'sh'}],
-        :message => 'is not an absolute path',
       },
     }
 
-    validations.sort.each do |type,var|
+    validations.sort.each do |type, var|
       var[:name].each do |var_name|
-
         var[:valid].each do |valid|
           context "with #{var_name} (#{type}) set to valid #{valid} (as #{valid.class})" do
-            let(:params) { validation_params.merge({:"#{var_name}" => valid, }) }
+            let(:params) { validation_params.merge({ :"#{var_name}" => valid, }) }
             it { should compile }
           end
         end
 
         var[:invalid].each do |invalid|
           context "with #{var_name} (#{type}) set to invalid #{invalid} (as #{invalid.class})" do
-            let(:params) { validation_params.merge({:"#{var_name}" => invalid, }) }
+            let(:params) { validation_params.merge({ :"#{var_name}" => invalid, }) }
             it 'should fail' do
-              expect {
+              expect do
                 should contain_class(subject)
-              }.to raise_error(Puppet::Error,/#{var[:message]}/)
+              end.to raise_error(Puppet::Error, /#{var[:message]}/)
             end
           end
         end
