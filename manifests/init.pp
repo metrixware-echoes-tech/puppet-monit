@@ -130,7 +130,7 @@ class monit (
     $monit_version_real = $monit_version
   }
 
-  if($start_delay > 0 and versioncmp($monit_version_real,'5') < 0) {
+  if($start_delay + 0 > 0 and versioncmp($monit_version_real,'5') < 0) {
     fail("start_delay requires at least Monit 5.0. Detected version is <${monit_version_real}>.")
   }
 
@@ -158,7 +158,6 @@ class monit (
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
-    notify => Service['monit'],
   }
 
   file { 'monit_config_dir':
@@ -170,7 +169,6 @@ class monit (
     purge   => $config_dir_purge_bool,
     recurse => $config_dir_purge_bool,
     require => Package['monit'],
-    notify  => Service['monit'],
   }
 
   file { 'monit_config':
@@ -181,7 +179,6 @@ class monit (
     group   => 0,
     mode    => '0600',
     require => Package['monit'],
-    notify  => Service['monit'],
   }
 
   if $service_manage {
@@ -198,6 +195,11 @@ class monit (
       enable     => $service_enable,
       hasrestart => true,
       hasstatus  => $service_hasstatus,
+      subscribe  => [
+        File['/var/lib/monit'],
+        File['monit_config_dir'],
+        File['monit_config'],
+      ],
     }
   }
 
