@@ -22,7 +22,7 @@ define monit::check (
     fail 'monit::check::content is not a string.'
   }
 
-  file { "${monit::config_dir}/${name}":
+  file { "${monit::config_dir_real}/${name}":
     ensure  => $ensure,
     owner   => 0,
     group   => 0,
