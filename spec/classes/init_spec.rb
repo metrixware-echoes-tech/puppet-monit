@@ -199,6 +199,208 @@ describe 'monit' do
     end
   end
 
+  describe 'parameter functionality' do
+    let(:facts) do
+      {
+       :osfamily                  => 'Debian',
+       :lsbdistcodename           => 'squeeze',
+      }
+    end
+
+    context 'when check_interval is set to valid integer <242>' do
+      let(:params) { { :check_interval => 242 } }
+      it { should contain_file('monit_config').with_content(/^set daemon 242$/) }
+    end
+
+    context 'when httpd is set to valid bool <true>' do
+      let(:params) { { :httpd => true } }
+      content = <<-END.gsub(/^\s+\|/, '')
+        |set httpd port 2812 and
+        |   use address localhost
+        |   allow 0.0.0.0/0.0.0.0
+        |   allow admin:monit
+      END
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when httpd_* params are set to valid values' do
+      let(:params) do
+        {
+          :httpd          => true,
+          :httpd_port     => 2420,
+          :httpd_address  => 'otherhost',
+          :httpd_user     => 'tester',
+          :httpd_password => 'Passw0rd',
+        }
+      end
+      content = <<-END.gsub(/^\s+\|/, '')
+        |set httpd port 2420 and
+        |   use address otherhost
+        |   allow 0.0.0.0/0.0.0.0
+        |   allow tester:Passw0rd
+      END
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when manage_firewall and http are set to valid bool <true>' do
+      # kernel fact is needed for ::firewall
+      let(:pre_condition) { ['include ::firewall'] }
+      let(:facts) do
+        {
+          :osfamily                  => 'Debian',
+          :lsbdistcodename           => 'squeeze',
+          :kernel                    => 'linux',
+        }
+      end
+      let(:params) do
+        {
+          :manage_firewall => true,
+          :httpd           => true,
+        }
+      end
+
+      it do
+        should contain_firewall('2812 allow Monit inbound traffic').with({
+          'action' => 'accept',
+          'dport'  => '2812',
+          'proto'  => 'tcp',
+        })
+      end
+    end
+
+    context 'when package_ensure is set to valid string <absent>' do
+      let(:params) { { :package_ensure => 'absent' } }
+      it { should contain_package('monit').with_ensure('absent') }
+    end
+
+    context 'when package_name is set to valid string <monit3>' do
+      let(:params) { { :package_name => 'monit3' } }
+      it { should contain_package('monit').with_name('monit3') }
+    end
+
+    context 'when service_enable is set to valid bool <false>' do
+      let(:params) { { :service_enable => false } }
+      it { should contain_service('monit').with_enable(false) }
+    end
+
+    context 'when service_ensure is set to valid string <stopped>' do
+      let(:params) { { :service_ensure => 'stopped' } }
+      it { should contain_service('monit').with_ensure('stopped') }
+    end
+
+    context 'when service_manage is set to valid bool <false>' do
+      let(:params) { { :service_manage => false } }
+      it { should_not contain_service('monit') }
+      it { should_not contain_file('/etc/default/monit') }
+    end
+
+    context 'when service_name is set to valid string <stopped>' do
+      let(:params) { { :service_name => 'monit3' } }
+      it { should contain_service('monit').with_name('monit3') }
+    end
+
+    context 'when logfile is set to valid path </var/log/monit3.log>' do
+      let(:params) { { :logfile => '/var/log/monit3.log' } }
+      it { should contain_file('monit_config').with_content(%r{^set logfile /var/log/monit3.log$}) }
+    end
+
+    context 'when logfile is set to valid string <syslog>' do
+      let(:params) { { :logfile => 'syslog' } }
+      it { should contain_file('monit_config').with_content(/^set logfile syslog$/) }
+    end
+
+    context 'when mailserver is set to valid string <mailhost>' do
+      let(:params) { { :mailserver => 'mailhost' } }
+      it { should contain_file('monit_config').with_content(/^set mailserver mailhost$/) }
+    end
+
+    context 'when mailformat is set to valid hash' do
+      let(:params) do
+        {
+          :mailformat => {
+            'from'    => 'monit@test.local',
+            'subject' => 'spectesting',
+            'message' => 'Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION',
+          }
+        }
+      end
+      content = <<-END.gsub(/^\s+\|/, '')
+        |set mail-format {
+        |    from: monit@test.local
+        |    subject: spectesting
+        |    message: Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION
+        |}
+      END
+      it { should contain_file('monit_config').with_content(/#{Regexp.escape(content)}/) }
+    end
+
+    context 'when alert_emails is set to valid array' do
+      let(:params) do
+        {
+          :alert_emails => [
+            'spec@test.local',
+            'tester@test.local',
+          ]
+        }
+      end
+      content = <<-END.gsub(/^\s+\|/, '')
+        |set alert spec@test.local
+        |set alert tester@test.local
+      END
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when mmonit_address is set to valid string <monit3.test.local>' do
+      let(:params) { { :mmonit_address => 'monit3.test.local' } }
+      content = 'set mmonit http://monit:monit@monit3.test.local:8080/collector'
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when mmonit_without_credential is set to valid bool <true>' do
+      let(:params) do
+        {
+          :mmonit_without_credential => true,
+          :mmonit_address            => 'monit3.test.local',
+        }
+      end
+      content = '   and register without credentials'
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when mmonit_* params are set to valid values' do
+      let(:params) do
+        {
+          :mmonit_address  => 'monit242.test.local',
+          :mmonit_port     => '8242',
+          :mmonit_user     => 'monituser',
+          :mmonit_password => 'Pa55w0rd',
+        }
+      end
+      content = 'set mmonit http://monituser:Pa55w0rd@monit242.test.local:8242/collector'
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
+    context 'when config_file is set to valid path </etc/monit3.conf>' do
+      let(:params) { { :config_file => '/etc/monit3.conf' } }
+      it { should contain_file('monit_config').with_path('/etc/monit3.conf') }
+    end
+
+    context 'when config_dir is set to valid path </etc/monit3/conf.d>' do
+      let(:params) { { :config_dir => '/etc/monit3/conf.d' } }
+      it { should contain_file('monit_config_dir').with_path('/etc/monit3/conf.d') }
+    end
+
+    context 'when config_dir_purge is set to valid bool <true>' do
+      let(:params) { { :config_dir_purge => true } }
+      it do
+        should contain_file('monit_config_dir').with({
+          'purge'   => true,
+          'recurse' => true,
+        })
+      end
+    end
+  end
+
   describe 'with an unsupported' do
     context 'version of EL' do
       let :facts do
