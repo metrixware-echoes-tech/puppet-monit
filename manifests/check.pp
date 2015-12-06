@@ -14,11 +14,12 @@ define monit::check (
   if $source and $content {
     fail 'Parameters source and content are mutually exclusive'
   }
-  if $source {
-    validate_string($source)
+
+  if $source != undef and is_string($source) == false {
+    fail 'monit::check::source is not a string.'
   }
-  if $content {
-    validate_string($content)
+  if $content != undef and is_string($content) == false {
+    fail 'monit::check::content is not a string.'
   }
 
   file { "${monit::config_dir}/${name}":
