@@ -321,17 +321,17 @@ describe 'monit' do
         {
           :mailformat => {
             'from'    => 'monit@test.local',
-            'subject' => 'spectesting',
             'message' => 'Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION',
+            'subject' => 'spectesting',
           }
         }
       end
       content = <<-END.gsub(/^\s+\|/, '')
-        |set mail-format {
-        |    from: monit@test.local
+        |set mail-format \{
+        |    from: monit\@test.local
+        |    message: Monit \$ACTION \$SERVICE at \$DATE on \$HOST: \$DESCRIPTION
         |    subject: spectesting
-        |    message: Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION
-        |}
+        |\}
       END
       it { should contain_file('monit_config').with_content(/#{Regexp.escape(content)}/) }
     end

@@ -14,7 +14,7 @@ set mailserver <%= @mailserver %>
 <%- end -%>
 <%- if @mailformat -%>
 set mail-format {
-<%- @mailformat.each do |key, value| -%>
+<%- @mailformat.sort.each do |key, value| -%>
     <%= key %>: <%= value %>
 <%- end -%>
 }
