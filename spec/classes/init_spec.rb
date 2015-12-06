@@ -179,6 +179,8 @@ describe 'monit' do
           it { should contain_file('/etc/default/monit').with({ 'before' => 'Service[monit]' }) }
 
           it { should contain_file('/etc/default/monit').with_content(/^#{v[:default_content]}$/) }
+        else
+          it { should_not contain_file('/etc/default/monit') }
         end
 
         it do
