@@ -91,20 +91,13 @@ describe 'monit' do
   describe 'with default values for parameters on' do
     platforms.sort.each do |k, v|
       context "#{k}" do
-        if v[:osfamily] == 'Solaris'
-          let :facts do
-            { :osfamily      => v[:osfamily],
-              :kernelrelease => v[:release],
-            }
-          end
-        else
-          let :facts do
-            { :lsbdistcodename           => v[:lsbdistcodename],
-              :osfamily                  => v[:osfamily],
-              :operatingsystemrelease    => v[:release],
-              :operatingsystemmajrelease => v[:majrelease],
-            }
-          end
+        let :facts do
+          { :lsbdistcodename           => v[:lsbdistcodename],
+            :osfamily                  => v[:osfamily],
+            :kernelrelease             => v[:release],        # Solaris specific
+            :operatingsystemrelease    => v[:release],        # Linux specific
+            :operatingsystemmajrelease => v[:majrelease],
+          }
         end
 
         # If support for another osfamily is added, this should be specified
