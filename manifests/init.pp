@@ -24,9 +24,9 @@ class monit (
   $mmonit_user               = 'monit',
   $mmonit_password           = 'monit',
   $mmonit_without_credential = false,
-  $config_file               = 'USE_DEFAULTS', # additional param to be documented
-  $config_dir                = 'USE_DEFAULTS', # additional param to be documented
-  $config_dir_purge          = false, # additional param to be documented
+  $config_file               = 'USE_DEFAULTS',
+  $config_dir                = 'USE_DEFAULTS',
+  $config_dir_purge          = false,
 ) {
 
   # <OS family handling>
