@@ -35,7 +35,7 @@ set httpd port <%= @httpd_port %> and
 <%- end -%>
 <%- if @mmonit_address  -%>
 set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_address %>:<%= @mmonit_port %>/collector
-<%- if @mmonit_without_credential -%>   and register without credentials<%- end -%>
+<%- if @mmonit_without_credential_bool -%>   and register without credentials<%- end -%>
 <%- end -%>
 
 include <%= @config_dir_real -%>/*

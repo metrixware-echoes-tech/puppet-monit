@@ -29,50 +29,7 @@ class monit (
   $config_dir_purge          = false, # additional param to be documented
 ) {
 
-  validate_integer($check_interval)
-  validate_bool($httpd)
-  validate_integer($httpd_port)
-  validate_string($httpd_address)
-  validate_string($httpd_user)
-  validate_string($httpd_password)
-  validate_bool($manage_firewall)
-  validate_string($package_ensure)
-  validate_string($package_name)
-  validate_bool($service_enable)
-  validate_string($service_ensure)
-  validate_bool($service_manage)
-  validate_string($service_name)
-
-  if $logfile != 'syslog' {
-    validate_absolute_path($logfile)
-  }
-
-  if $mailserver != undef {
-    validate_string($mailserver)
-  }
-
-  if $mailformat != undef {
-    validate_hash($mailformat)
-  }
-
-  validate_array($alert_emails)
-
-  if $mmonit_address != undef {
-    validate_string($mmonit_address)
-  }
-
-  validate_string($mmonit_port)
-  validate_string($mmonit_user)
-  validate_string($mmonit_password)
-  validate_bool($mmonit_without_credential)
-
-  if is_string($config_dir_purge) == true {
-    $config_dir_purge_bool = str2bool($config_dir_purge)
-  } else {
-    $config_dir_purge_bool = $config_dir_purge
-  }
-  validate_bool($config_dir_purge_bool)
-
+  # <OS family handling>
   case $::osfamily {
     default: {
       fail("monit supports osfamilies Debian and RedHat. Detected osfamily is <${::osfamily}>.")
@@ -120,7 +77,100 @@ class monit (
     }
   }
 
+  if $config_file == 'USE_DEFAULTS' {
+    $config_file_real = $default_config_file
+  } else {
+    $config_file_real = $config_file
+  }
+
+  if $config_dir == 'USE_DEFAULTS' {
+    $config_dir_real = $default_config_dir
+  } else {
+    $config_dir_real = $config_dir
+  }
+  # </OS family handling>
+
+  # <stringified variable handling>
+  if is_string($httpd) == true {
+    $httpd_bool = str2bool($httpd)
+  } else {
+    $httpd_bool = $httpd
+  }
+
+  if is_string($manage_firewall) == true {
+    $manage_firewall_bool = str2bool($manage_firewall)
+  } else {
+    $manage_firewall_bool = $manage_firewall
+  }
+
+  if is_string($service_enable) == true {
+    $service_enable_bool = str2bool($service_enable)
+  } else {
+    $service_enable_bool = $service_enable
+  }
+
+  if is_string($service_manage) == true {
+    $service_manage_bool = str2bool($service_manage)
+  } else {
+    $service_manage_bool = $service_manage
+  }
+
+  if is_string($mmonit_without_credential) == true {
+    $mmonit_without_credential_bool = str2bool($mmonit_without_credential)
+  } else {
+    $mmonit_without_credential_bool = $mmonit_without_credential
+  }
+
+  if is_string($config_dir_purge) == true {
+    $config_dir_purge_bool = str2bool($config_dir_purge)
+  } else {
+    $config_dir_purge_bool = $config_dir_purge
+  }
+  # </stringified variable handling>
+
+  # <variable validations>
+  validate_integer($check_interval, '', 0)
+  validate_bool($httpd_bool)
+  validate_integer($httpd_port, 65535, 0)
+  validate_string($httpd_address)
+  validate_string($httpd_user)
+  validate_string($httpd_password)
+  validate_bool($manage_firewall_bool)
+  validate_string($package_ensure)
+  validate_string($package_name)
+  validate_bool($service_enable_bool)
+  validate_string($service_ensure)
+  validate_bool($service_manage_bool)
+  validate_string($service_name)
+
+  if $logfile != 'syslog' {
+    validate_absolute_path($logfile)
+  }
+
+  if $mailserver != undef {
+    validate_string($mailserver)
+  }
+
+  if $mailformat != undef {
+    validate_hash($mailformat)
+  }
+
+  validate_array($alert_emails)
   validate_integer($start_delay, '', 0)
+
+  if $mmonit_address != undef {
+    validate_string($mmonit_address)
+  }
+
+  validate_string($mmonit_port)
+  validate_string($mmonit_user)
+  validate_string($mmonit_password)
+  validate_bool($mmonit_without_credential_bool)
+  validate_absolute_path($config_file_real)
+  validate_absolute_path($config_dir_real)
+  validate_bool($config_dir_purge_bool)
+  # </variable validations>
+
 
   # Use the monit_version fact if available, else use the default for the
   # platform.
@@ -133,20 +183,6 @@ class monit (
   if($start_delay + 0 > 0 and versioncmp($monit_version_real,'5') < 0) {
     fail("start_delay requires at least Monit 5.0. Detected version is <${monit_version_real}>.")
   }
-
-  if $config_dir == 'USE_DEFAULTS' {
-    $config_dir_real = $default_config_dir
-  } else {
-    $config_dir_real = $config_dir
-  }
-  validate_absolute_path($config_dir_real)
-
-  if $config_file == 'USE_DEFAULTS' {
-    $config_file_real = $default_config_file
-  } else {
-    $config_file_real = $config_file
-  }
-  validate_absolute_path($config_file_real)
 
   package { 'monit':
     ensure => $package_ensure,
@@ -181,7 +217,7 @@ class monit (
     require => Package['monit'],
   }
 
-  if $service_manage {
+  if $service_manage_bool {
     if $::osfamily == 'Debian' {
       file { '/etc/default/monit':
         content => $default_file_content,
@@ -192,7 +228,7 @@ class monit (
     service { 'monit':
       ensure     => $service_ensure,
       name       => $service_name,
-      enable     => $service_enable,
+      enable     => $service_enable_bool,
       hasrestart => true,
       hasstatus  => $service_hasstatus,
       subscribe  => [
@@ -203,7 +239,7 @@ class monit (
     }
   }
 
-  if $httpd and $manage_firewall {
+  if $httpd_bool and $manage_firewall_bool {
     if defined('::firewall') {
       firewall { "${httpd_port} allow Monit inbound traffic":
         action => 'accept',

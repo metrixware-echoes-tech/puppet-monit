@@ -396,8 +396,54 @@ describe 'monit' do
     end
   end
 
-  describe 'with an unsupported' do
-    context 'version of EL' do
+  describe 'failures' do
+    let(:facts) do
+      {
+       :osfamily                  => 'Debian',
+       :lsbdistcodename           => 'squeeze',
+      }
+    end
+
+    [-1, 65_536].each do |value|
+      context "when httpd_port is set to invalid value <#{value}>" do
+        let(:params) do
+          {
+            :httpd          => true,
+            :httpd_port     => value,
+            :httpd_address  => 'otherhost',
+            :httpd_user     => 'tester',
+            :httpd_password => 'Passw0rd',
+          }
+        end
+        it 'should fail' do
+          expect do
+            should contain_class('monit')
+          end.to raise_error(Puppet::Error, /Expected #{value} to be (smaller|greater) or equal to (0|65535)/)
+        end
+      end
+    end
+
+    context 'when check_interval is set to invalid value <-1>' do
+      let(:params) { { :check_interval => -1 } }
+
+      it 'should fail' do
+        expect do
+          should contain_class('monit')
+        end.to raise_error(Puppet::Error, /to be greater or equal to 0/)
+      end
+    end
+
+    context 'when start_delay is set to invalid value <-1>' do
+      let(:params) { { :start_delay => -1 } }
+
+      it 'should fail' do
+        expect do
+          should contain_class('monit')
+        end.to raise_error(Puppet::Error, /to be greater or equal to 0/)
+      end
+    end
+
+    context 'when major release of EL is unsupported' do
       let :facts do
         { :osfamily                  => 'RedHat',
           :operatingsystemmajrelease => '4',
@@ -411,7 +457,7 @@ describe 'monit' do
       end
     end
 
-    context 'version of Debian' do
+    context 'when major release of Debian is unsupported' do
       let :facts do
         { :osfamily                  => 'Debian',
           :operatingsystemmajrelease => '4',
@@ -426,7 +472,7 @@ describe 'monit' do
       end
     end
 
-    context 'version of Ubuntu' do
+    context 'when major release of Ubuntu is unsupported' do
       let :facts do
         { :osfamily                  => 'Debian',
           :operatingsystemmajrelease => '8',
@@ -441,7 +487,7 @@ describe 'monit' do
       end
     end
 
-    context 'osfamily' do
+    context 'when osfamily is unsupported' do
       let :facts do
         { :osfamily                  => 'Unsupported',
           :operatingsystemmajrelease => '9',
@@ -485,14 +531,8 @@ describe 'monit' do
         :invalid => ['string', { 'ha' => 'sh' }, 3, 2.42, true],
         :message => 'is not an Array',
       },
-      'bool' => {
-        :name    => %w(httpd manage_firewall service_enable service_manage mmonit_without_credential),
-        :valid   => [true, false],
-        :invalid => ['true', 'false', 'invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
-        :message => 'is not a boolean',
-      },
       'bool_stringified' => {
-        :name    => %w(config_dir_purge),
+        :name    => %w(httpd manage_firewall service_enable service_manage mmonit_without_credential config_dir_purge),
         :valid   => [true, 'true', false, 'false'],
         :invalid => ['invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
         :message => '(is not a boolean|Unknown type of boolean)',
