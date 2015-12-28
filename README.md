@@ -38,10 +38,13 @@ It allows you to enable HTTP Dashboard an to add check from a file.
 **WARNING:** For RedHat systems, you may need to add an additional repository like the [EPEL repository](http://fedoraproject.org/wiki/EPEL).
 You can use the module [stahnma-epel](https://forge.puppetlabs.com/stahnma/epel) to do this.
 
+Supports Puppet v3 (optionally with future parser) and v4 with Ruby versions
+1.8.7 (Puppet v3 only), 1.9.3, 2.0.0 and 2.1.0.
+
 ### Beginning with monit
 
 ```puppet
-include 'monit'
+include ::monit
 ```
 
 ## Usage
@@ -101,15 +104,7 @@ monit::check { 'ntp':
 
 #### Public classes
 
-* monit: Main class, includes all other classes.
-
-#### Private classes
-
-* monit::params: Sets parameter defaults per operating system.
-* monit::install: Handles the packages.
-* monit::config: Handles the configuration file.
-* monit::service: Handles the service.
-* monit::firewall: Handles the firewall configuration.
+* monit: Main class.
 
 #### Parameters
 
@@ -125,11 +120,15 @@ Specifies the interval between two checks of Monit. Valid options: numeric. Defa
 
 ##### `config_file`
 
-Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
+Specifies a path to the main config file. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
 
 ##### `config_dir`
 
-Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
+Specifies a path to the config directory. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
+
+##### `config_dir_purge`
+
+Specifies if unmanaged files in the config directory should be purged. Valid options: 'true' or 'false'. Default value: 'false'
 
 ##### `httpd`
 
