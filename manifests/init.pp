@@ -91,6 +91,36 @@ class monit (
   # </OS family handling>
 
   # <stringified variable handling>
+  if is_string($httpd) == true {
+    $httpd_bool = str2bool($httpd)
+  } else {
+    $httpd_bool = $httpd
+  }
+
+  if is_string($manage_firewall) == true {
+    $manage_firewall_bool = str2bool($manage_firewall)
+  } else {
+    $manage_firewall_bool = $manage_firewall
+  }
+
+  if is_string($service_enable) == true {
+    $service_enable_bool = str2bool($service_enable)
+  } else {
+    $service_enable_bool = $service_enable
+  }
+
+  if is_string($service_manage) == true {
+    $service_manage_bool = str2bool($service_manage)
+  } else {
+    $service_manage_bool = $service_manage
+  }
+
+  if is_string($mmonit_without_credential) == true {
+    $mmonit_without_credential_bool = str2bool($mmonit_without_credential)
+  } else {
+    $mmonit_without_credential_bool = $mmonit_without_credential
+  }
+
   if is_string($config_dir_purge) == true {
     $config_dir_purge_bool = str2bool($config_dir_purge)
   } else {
@@ -100,17 +130,17 @@ class monit (
 
   # <variable validations>
   validate_integer($check_interval)
-  validate_bool($httpd)
+  validate_bool($httpd_bool)
   validate_integer($httpd_port)
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
-  validate_bool($manage_firewall)
+  validate_bool($manage_firewall_bool)
   validate_string($package_ensure)
   validate_string($package_name)
-  validate_bool($service_enable)
+  validate_bool($service_enable_bool)
   validate_string($service_ensure)
-  validate_bool($service_manage)
+  validate_bool($service_manage_bool)
   validate_string($service_name)
 
   if $logfile != 'syslog' {
@@ -135,7 +165,7 @@ class monit (
   validate_string($mmonit_port)
   validate_string($mmonit_user)
   validate_string($mmonit_password)
-  validate_bool($mmonit_without_credential)
+  validate_bool($mmonit_without_credential_bool)
   validate_absolute_path($config_file_real)
   validate_absolute_path($config_dir_real)
   validate_bool($config_dir_purge_bool)
@@ -187,7 +217,7 @@ class monit (
     require => Package['monit'],
   }
 
-  if $service_manage {
+  if $service_manage_bool {
     if $::osfamily == 'Debian' {
       file { '/etc/default/monit':
         content => $default_file_content,
@@ -198,7 +228,7 @@ class monit (
     service { 'monit':
       ensure     => $service_ensure,
       name       => $service_name,
-      enable     => $service_enable,
+      enable     => $service_enable_bool,
       hasrestart => true,
       hasstatus  => $service_hasstatus,
       subscribe  => [
@@ -209,7 +239,7 @@ class monit (
     }
   }
 
-  if $httpd and $manage_firewall {
+  if $httpd_bool and $manage_firewall_bool {
     if defined('::firewall') {
       firewall { "${httpd_port} allow Monit inbound traffic":
         action => 'accept',

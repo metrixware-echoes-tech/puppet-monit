@@ -485,14 +485,8 @@ describe 'monit' do
         :invalid => ['string', { 'ha' => 'sh' }, 3, 2.42, true],
         :message => 'is not an Array',
       },
-      'bool' => {
-        :name    => %w(httpd manage_firewall service_enable service_manage mmonit_without_credential),
-        :valid   => [true, false],
-        :invalid => ['true', 'false', 'invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
-        :message => 'is not a boolean',
-      },
       'bool_stringified' => {
-        :name    => %w(config_dir_purge),
+        :name    => %w(httpd manage_firewall service_enable service_manage mmonit_without_credential config_dir_purge),
         :valid   => [true, 'true', false, 'false'],
         :invalid => ['invalid', 3, 2.42, %w(array), { 'ha' => 'sh' }, nil],
         :message => '(is not a boolean|Unknown type of boolean)',
