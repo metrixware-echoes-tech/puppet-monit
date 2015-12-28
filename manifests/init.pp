@@ -129,9 +129,9 @@ class monit (
   # </stringified variable handling>
 
   # <variable validations>
-  validate_integer($check_interval)
+  validate_integer($check_interval, '', 0)
   validate_bool($httpd_bool)
-  validate_integer($httpd_port)
+  validate_integer($httpd_port, 65535, 0)
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
