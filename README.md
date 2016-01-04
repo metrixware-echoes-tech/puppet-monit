@@ -119,6 +119,10 @@ The following parameters are available in the `::monit` class:
 
 Specifies one or more email addresses to send global alerts to. Valid options: array. Default value: []
 
+##### `alert_overrides`
+
+Specifies global alert overrides in the form `only on { timeout, nonexist }` or `but not on { instance }`. See: https://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter Default value: ''
+
 ##### `check_interval`
 
 Specifies the interval between two checks of Monit. Valid options: numeric. Default value: 120

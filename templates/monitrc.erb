@@ -20,7 +20,7 @@ set mail-format {
 }
 <%- end -%>
 <%- @alert_emails.each do |email| -%>
-set alert <%= email %>
+set alert <%= email %> <%= @alert_overrides %>
 <%- end -%>
 set eventqueue
     basedir /var/lib/monit/events
