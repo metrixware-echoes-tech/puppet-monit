@@ -128,6 +128,10 @@ Specifies a path to the main config file. Valid options: string. Default value: 
 
 Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
 
+##### `purge_config_dir`
+
+Delete unmanaged files in the config dir. Valid options: 'true' or 'false'. Default value: 'false'
+
 ##### `httpd`
 
 Specifies whether to enable the Monit Dashboard. Valid options: 'true' or 'false'. Default value: 'false'

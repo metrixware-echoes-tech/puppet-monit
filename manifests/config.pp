@@ -12,10 +12,12 @@ class monit::config inherits monit {
   }
   
   file { $monit::config_dir:
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    purge   => $monit::purge_config_dir,
+    recurse => $monit::purge_config_dir,
   }
 
   file { $monit::config_file:

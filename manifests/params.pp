@@ -15,6 +15,7 @@ class monit::params {
   $service_ensure            = 'running'
   $service_manage            = true
   $service_name              = 'monit'
+  $purge_config_dir          = false
   $logfile                   = '/var/log/monit.log'
   $mailserver                = undef
   $mailformat                = undef
