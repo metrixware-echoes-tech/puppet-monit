@@ -95,6 +95,7 @@ describe 'monit' do
           { :lsbdistcodename           => v[:lsbdistcodename],
             :osfamily                  => v[:osfamily],
             :kernelrelease             => v[:release],        # Solaris specific
+            :monit_version             => v[:monit_version],
             :operatingsystemrelease    => v[:release],        # Linux specific
             :operatingsystemmajrelease => v[:majrelease],
           }
@@ -197,8 +198,9 @@ describe 'monit' do
   describe 'parameter functionality' do
     let(:facts) do
       {
-       :osfamily                  => 'Debian',
-       :lsbdistcodename           => 'squeeze',
+        :osfamily        => 'Debian',
+        :lsbdistcodename => 'squeeze',
+        :monit_version   => '4',
       }
     end
 
@@ -242,9 +244,12 @@ describe 'monit' do
       let(:pre_condition) { ['include ::firewall'] }
       let(:facts) do
         {
-          :osfamily                  => 'Debian',
-          :lsbdistcodename           => 'squeeze',
-          :kernel                    => 'linux',
+          :operatingsystem        => 'Debian',
+          :operatingsystemrelease => '6',
+          :osfamily               => 'Debian',
+          :lsbdistcodename        => 'squeeze',
+          :kernel                 => 'linux',
+          :monit_version          => '5',
         }
       end
       let(:params) do
@@ -399,8 +404,9 @@ describe 'monit' do
   describe 'failures' do
     let(:facts) do
       {
-       :osfamily                  => 'Debian',
-       :lsbdistcodename           => 'squeeze',
+        :osfamily        => 'Debian',
+        :lsbdistcodename => 'squeeze',
+        :monit_version   => '5',
       }
     end
 
@@ -447,6 +453,7 @@ describe 'monit' do
       let :facts do
         { :osfamily                  => 'RedHat',
           :operatingsystemmajrelease => '4',
+          :monit_version             => '5',
         }
       end
 
@@ -462,6 +469,7 @@ describe 'monit' do
         { :osfamily                  => 'Debian',
           :operatingsystemmajrelease => '4',
           :lsbdistcodename           => 'etch',
+          :monit_version             => '5',
         }
       end
 
@@ -477,6 +485,7 @@ describe 'monit' do
         { :osfamily                  => 'Debian',
           :operatingsystemmajrelease => '8',
           :lsbdistcodename           => 'hardy',
+          :monit_version             => '5',
         }
       end
 
@@ -491,6 +500,7 @@ describe 'monit' do
       let :facts do
         { :osfamily                  => 'Unsupported',
           :operatingsystemmajrelease => '9',
+          :monit_version             => '5',
         }
       end
 
@@ -506,10 +516,11 @@ describe 'monit' do
     # set needed custom facts and variables
     let(:facts) do
       {
-       :osfamily                  => 'Debian',
-       :operatingsystemrelease    => '6.0',
-       :operatingsystemmajrelease => '6',
-       :lsbdistcodename           => 'squeeze',
+        :osfamily                  => 'Debian',
+        :operatingsystemrelease    => '6.0',
+        :operatingsystemmajrelease => '6',
+        :lsbdistcodename           => 'squeeze',
+        :monit_version             => '5',
       }
     end
     let(:validation_params) do

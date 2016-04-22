@@ -7,8 +7,9 @@ describe 'monit::check' do
   let(:title) { 'test' }
   let(:facts) do
     {
-     :osfamily                  => 'Debian',
-     :lsbdistcodename           => 'squeeze',
+      :osfamily        => 'Debian',
+      :lsbdistcodename => 'squeeze',
+      :monit_version   => '5',
     }
   end
 
@@ -119,8 +120,9 @@ describe 'monit::check' do
     # set needed custom facts and variables
     let(:facts) do
       {
-       :osfamily                  => 'Debian',
-       :lsbdistcodename           => 'squeeze',
+        :osfamily        => 'Debian',
+        :lsbdistcodename => 'squeeze',
+        :monit_version   => '5',
       }
     end
     let(:validation_params) do
