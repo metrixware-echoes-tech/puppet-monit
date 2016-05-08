@@ -8,6 +8,7 @@ class monit::params {
   $httpd_address             = 'localhost'
   $httpd_user                = 'admin'
   $httpd_password            = 'monit'
+  $httpd_groups              = []
   $manage_firewall           = false
   $package_ensure            = 'present'
   $package_name              = 'monit'

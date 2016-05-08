@@ -32,6 +32,9 @@ set httpd port <%= @httpd_port %> and
    <%- if !@httpd_user.empty? && !@httpd_password.empty? -%>
    allow <%= @httpd_user %>:<%= @httpd_password %>
    <%- end -%>
+   <%- @httpd_groups.each do |user| -%>
+   allow @<%= user %>
+   <%- end -%>
 <%- end -%>
 <%- if @mmonit_address  -%>
 set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_address %>:<%= @mmonit_port %>/collector

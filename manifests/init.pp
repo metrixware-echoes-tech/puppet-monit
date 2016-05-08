@@ -5,6 +5,7 @@ class monit (
   $httpd_address             = $monit::params::httpd_address,
   $httpd_user                = $monit::params::httpd_user,
   $httpd_password            = $monit::params::httpd_password,
+  $httpd_groups              = $monit::params::httpd_groups,
   $manage_firewall           = $monit::params::manage_firewall,
   $package_ensure            = $monit::params::package_ensure,
   $package_name              = $monit::params::package_name,
@@ -35,6 +36,7 @@ class monit (
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
+  validate_array($httpd_groups)
   validate_bool($manage_firewall)
   validate_string($package_ensure)
   validate_string($package_name)

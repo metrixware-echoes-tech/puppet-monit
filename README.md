@@ -151,6 +151,10 @@ Specifies the user to access the Monit Dashboard. Valid options: string. Default
 
 Specifies the password to access the Monit Dashboard. Valid options: string. Default value: 'monit'
 
+##### `httpd_groups`
+
+Specifies the PAM authenticated groups to access the Monit Dashboard. Valid options: array of user group strings. Default value: '[]'
+
 ##### `logfile`
 
 Specifies the logfile directive value. Valid options: string. Default value: '/var/log/monit.log'
