@@ -104,7 +104,15 @@ monit::check { 'ntp':
 
 #### Public classes
 
-* monit: Main class.
+* monit: Main class, includes all other classes.
+
+#### Private classes
+
+* monit::params: Sets parameter defaults per operating system.
+* monit::install: Handles the packages.
+* monit::config: Handles the configuration file.
+* monit::service: Handles the service.
+* monit::firewall: Handles the firewall configuration.
 
 #### Parameters
 
@@ -120,11 +128,11 @@ Specifies the interval between two checks of Monit. Valid options: numeric. Defa
 
 ##### `config_file`
 
-Specifies a path to the main config file. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
+Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
 
 ##### `config_dir`
 
-Specifies a path to the config directory. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
+Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
 
 ##### `config_dir_purge`
 
