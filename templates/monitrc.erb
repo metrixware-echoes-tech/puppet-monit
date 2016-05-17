@@ -32,7 +32,7 @@ set httpd port <%= @httpd_port %> and
    <%- if !@httpd_user.empty? && !@httpd_password.empty? -%>
    allow <%= @httpd_user %>:<%= @httpd_password %>
    <%- end -%>
-   <%- if !@httpd_htpasswd_crypto.empty? && @httpd_htpasswd_file -%>
+   <%- if !@httpd_htpasswd_crypto.empty? && !@httpd_htpasswd_file.empty? -%>
    allow <%= @httpd_htpasswd_crypto %> <%= @httpd_htpasswd_file %> <%= @httpd_htpasswd_users.join(' ') %>
    <%- end -%>
 <%- end -%>
