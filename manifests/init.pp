@@ -1,3 +1,5 @@
+# == Class: monit
+#
 class monit (
   $check_interval            = $monit::params::check_interval,
   $httpd                     = $monit::params::httpd,
@@ -13,6 +15,7 @@ class monit (
   $service_manage            = $monit::params::service_manage,
   $service_name              = $monit::params::service_name,
   $config_file               = $monit::params::config_file,
+  $config_dir_purge          = $monit::params::config_file_purge,
   $config_dir                = $monit::params::config_dir,
   $logfile                   = $monit::params::logfile,
   $mailserver                = $monit::params::mailserver,
@@ -25,43 +28,97 @@ class monit (
   $mmonit_password           = $monit::params::mmonit_password,
   $mmonit_without_credential = $monit::params::mmonit_without_credential,
 ) inherits monit::params {
-  if ! is_integer($check_interval) {
-    fail('Invalid type. check_interval param should be an integer.')
+  # <stringified variable handling>
+  if is_string($httpd) == true {
+    $httpd_bool = str2bool($httpd)
+  } else {
+    $httpd_bool = $httpd
   }
-  validate_bool($httpd)
-  if ! is_integer($httpd_port) {
-    fail('Invalid type. http_port param should be an integer.')
+
+  if is_string($manage_firewall) == true {
+    $manage_firewall_bool = str2bool($manage_firewall)
+  } else {
+    $manage_firewall_bool = $manage_firewall
   }
+
+  if is_string($service_enable) == true {
+    $service_enable_bool = str2bool($service_enable)
+  } else {
+    $service_enable_bool = $service_enable
+  }
+
+  if is_string($service_manage) == true {
+    $service_manage_bool = str2bool($service_manage)
+  } else {
+    $service_manage_bool = $service_manage
+  }
+
+  if is_string($mmonit_without_credential) == true {
+    $mmonit_without_credential_bool = str2bool($mmonit_without_credential)
+  } else {
+    $mmonit_without_credential_bool = $mmonit_without_credential
+  }
+
+  if is_string($config_dir_purge) == true {
+    $config_dir_purge_bool = str2bool($config_dir_purge)
+  } else {
+    $config_dir_purge_bool = $config_dir_purge
+  }
+  # </stringified variable handling>
+
+  # <variable validations>
+  validate_integer($check_interval, '', 0)
+  validate_bool($httpd_bool)
+  validate_integer($httpd_port, 65535, 0)
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
-  validate_bool($manage_firewall)
+  validate_bool($manage_firewall_bool)
   validate_string($package_ensure)
   validate_string($package_name)
-  validate_bool($service_enable)
+  validate_bool($service_enable_bool)
   validate_string($service_ensure)
-  validate_bool($service_manage)
+  validate_bool($service_manage_bool)
   validate_string($service_name)
-  validate_string($config_file)
-  validate_string($config_dir)
-  validate_string($logfile)
-  if $mailserver {
+
+  if $logfile != 'syslog' {
+    validate_absolute_path($logfile)
+  }
+
+  if $mailserver != undef {
     validate_string($mailserver)
   }
-  if $mailformat {
+
+  if $mailformat != undef {
     validate_hash($mailformat)
   }
+
   validate_array($alert_emails)
-  validate_integer($start_delay, undef, 0)
-  if($start_delay > 0 and $::monit_version < '5') {
-    fail('Monit option "start_delay" requires at least Monit 5.0"')
-  }
-  if $mmonit_address {
+  validate_integer($start_delay, '', 0)
+
+  if $mmonit_address != undef {
     validate_string($mmonit_address)
-    validate_string($mmonit_port)
-    validate_string($mmonit_user)
-    validate_string($mmonit_password)
-    validate_bool($mmonit_without_credential)
+  }
+
+  validate_string($mmonit_port)
+  validate_string($mmonit_user)
+  validate_string($mmonit_password)
+  validate_bool($mmonit_without_credential_bool)
+  validate_absolute_path($config_file)
+  validate_absolute_path($config_dir)
+  validate_bool($config_dir_purge_bool)
+  # </variable validations>
+
+  # Use the monit_version fact if available, else use the default for the
+  # platform.
+  if $::monit_version {
+    $monit_version_real = $::monit_version
+  } else {
+    $monit_version_real = $monit::params::monit_version
+  }
+
+  if($start_delay + 0 > 0 and versioncmp($monit_version_real,'5') < 0) {
+    fail("start_delay requires at least Monit 5.0. Detected version is <${monit_version_real}>.")
   }
 
   anchor { "${module_name}::begin": } ->
