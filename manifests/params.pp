@@ -44,7 +44,7 @@ class monit::params {
           $service_hasstatus    = true
         }
         default: {
-          fail("monit supports Debian 6 (squeeze),7 (wheezy) and 8 (jessie) \
+          fail("monit supports Debian 6 (squeeze), 7 (wheezy) and 8 (jessie) \
 and Ubuntu 10.04 (lucid), 12.04 (precise) and 14.04 (trusty). Detected lsbdistcodename is <${::lsbdistcodename}>.")
         }
 

@@ -31,7 +31,7 @@ define monit::check (
     mode    => '0644',
     source  => $source,
     content => $content,
-    require => Package[$::monit::package_name],
-    notify  => Service[$::monit::service_name],
+    require => Package['monit'],
+    notify  => Service['monit'],
   }
 }

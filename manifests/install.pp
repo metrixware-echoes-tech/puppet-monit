@@ -4,8 +4,8 @@ class monit::install inherits monit {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  package { $monit::package_name:
+  package { 'monit':
     ensure => $monit::package_ensure,
-    alias  => 'monit',
+    name   => $monit::package_name,
   }
 }

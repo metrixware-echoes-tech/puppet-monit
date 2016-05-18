@@ -11,8 +11,9 @@ class monit::config inherits monit {
     mode   => '0755',
   }
 
-  file { $monit::config_dir:
+  file { 'monit_config_dir':
     ensure  => directory,
+    path    => $monit::config_dir,
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
@@ -21,12 +22,13 @@ class monit::config inherits monit {
     require => Package[$monit::package_name],
   }
 
-  file { $monit::config_file:
+  file { 'monit_config':
     ensure  => file,
+    path    => $monit::config_file,
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
     content => template('monit/monitrc.erb'),
-    require => Package[$monit::package_name],
+    require => Package['monit'],
   }
 }

@@ -12,16 +12,16 @@ class monit::service inherits monit {
       }
     }
 
-    service { $monit::service_name:
+    service { 'monit':
       ensure     => $monit::service_ensure,
+      name       => $monit::service_name,
       enable     => $monit::service_enable,
-      alias      => 'monit',
       hasrestart => true,
       hasstatus  => $monit::service_hasstatus,
       subscribe  => [
         File['/var/lib/monit'],
-        File[$monit::config_dir],
-        File[$monit::config_file],
+        File['monit_config_dir'],
+        File['monit_config'],
       ],
     }
   }
