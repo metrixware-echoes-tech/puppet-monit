@@ -19,7 +19,7 @@ class monit::config inherits monit {
     mode    => '0755',
     purge   => $monit::config_dir_purge_bool,
     recurse => $monit::config_dir_purge_bool,
-    require => Package[$monit::package_name],
+    require => Package['monit'],
   }
 
   file { 'monit_config':
