@@ -14,6 +14,7 @@ class monit (
   $service_name              = $monit::params::service_name,
   $config_file               = $monit::params::config_file,
   $config_dir                = $monit::params::config_dir,
+  $purge_config_dir          = $monit::parmas::purge_config_dir,
   $logfile                   = $monit::params::logfile,
   $mailserver                = $monit::params::mailserver,
   $mailformat                = $monit::params::mailformat,
