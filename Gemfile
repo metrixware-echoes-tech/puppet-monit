@@ -24,6 +24,9 @@ group :system_tests do
   gem 'serverspec',    :require => false
 end
 
+# json_pure 2.0.2 requires ruby 2.0. Lock to 2.0.1 if ruby 1.x
+gem 'json_pure', '<=2.0.1', :require => false if RUBY_VERSION =~ /^1\./
+
 if facterversion = ENV['FACTER_GEM_VERSION']
   gem 'facter', facterversion, :require => false
 else
