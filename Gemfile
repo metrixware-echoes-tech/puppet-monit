@@ -24,13 +24,17 @@ group :system_tests do
   gem 'serverspec',    :require => false
 end
 
-# json_pure 2.0.2 requires ruby 2.0. Lock to 2.0.1 if ruby 1.x
-gem 'json_pure', '<=2.0.1', :require => false if RUBY_VERSION =~ /^1\./
-
 if facterversion = ENV['FACTER_GEM_VERSION']
   gem 'facter', facterversion, :require => false
 else
   gem 'facter', :require => false
+end
+
+if RUBY_VERSION < '2.0'
+  # json 2.x requires ruby 2.0.
+  gem 'json', '~> 1.0', :require => false
+  # json_pure 2.0.2 requires ruby 2.0. Lock to 2.0.1
+  gem 'json_pure', '= 2.0.1', :require => false
 end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
