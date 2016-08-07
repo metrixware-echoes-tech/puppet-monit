@@ -1,9 +1,11 @@
 # monit
 
-[![Build Status](https://travis-ci.org/echoes-tech/puppet-monit.svg?branch=master)]
-(https://travis-ci.org/echoes-tech/puppet-monit)
-[![Flattr Button](https://api.flattr.com/button/flattr-badge-large.png "Flattr This!")]
-(https://flattr.com/submit/auto?user_id=echoes&url=https://forge.puppetlabs.com/echoes/monit&title=Puppet%20module%20to%20manage%20Monit&description=This%20module%20installs%20and%20configures%20Monit.%20It%20allows%20you%20to%20enable%20HTTP%20Dashboard%20an%20to%20add%20check%20from%20a%20file.&lang=en_GB&category=software "Puppet module to manage Monit installation and configuration")
+This is a fork of [echoes/monit](https://github.com/echoes-tech/puppet-monit).
+
+This module has been heavily refactored and extensive spec tests were added.
+Version 1.0.0 of this module is compatible with v1.0.0 of echoes/monit, so you
+can swap modules without worry.
+
 
 #### Table of Contents
 
@@ -104,15 +106,7 @@ monit::check { 'ntp':
 
 #### Public classes
 
-* monit: Main class, includes all other classes.
-
-#### Private classes
-
-* monit::params: Sets parameter defaults per operating system.
-* monit::install: Handles the packages.
-* monit::config: Handles the configuration file.
-* monit::service: Handles the service.
-* monit::firewall: Handles the firewall configuration.
+* monit: Main class.
 
 #### Parameters
 
@@ -128,11 +122,11 @@ Specifies the interval between two checks of Monit. Valid options: numeric. Defa
 
 ##### `config_file`
 
-Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
+Specifies a path to the main config file. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
 
 ##### `config_dir`
 
-Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
+Specifies a path to the config directory. Valid options: string. 'USE_DEFAULTS' will choose the options based on the operating system. Default value: 'USE_DEFAULTS'
 
 ##### `config_dir_purge`
 
@@ -264,10 +258,8 @@ RedHat and Debian family OSes are officially supported. Tested and built on Debi
 
 ##Development
 
-[Echoes Technologies](https://www.echoes-tech.com) modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great.
-
-[Fork this module on GitHub](https://github.com/echoes-tech/puppet-monit/fork)
+[Fork this module on GitHub](https://github.com/ghoneycutt/puppet-module-monit/fork)
 
 ## Contributors
 
-The list of contributors can be found at: https://github.com/echoes-tech/puppet-monit/graphs/contributors
+The list of contributors can be found at: https://github.com/ghoneycutt/puppet-module-monit/graphs/contributors

@@ -159,8 +159,8 @@ describe 'monit' do
           should contain_file('monit_config').with({
             'ensure'  => 'file',
             'path'    => v[:config_file],
-            'owner'   => 'root',
-            'group'   => 'root',
+            'owner'   => '0',
+            'group'   => '0',
             'mode'    => '0600',
             'require' => 'Package[monit]',
           })
@@ -170,7 +170,7 @@ describe 'monit' do
         it { should contain_file('monit_config').with_content(monit_config_fixture) }
 
         if v[:osfamily] == 'Debian'
-          it { should contain_file('/etc/default/monit').with({ 'notify' => 'Service[monit]' }) }
+          it { should contain_file('/etc/default/monit').with({ 'before' => 'Service[monit]' }) }
 
           it { should contain_file('/etc/default/monit').with_content(/^#{v[:default_content]}$/) }
         else
@@ -476,7 +476,7 @@ describe 'monit' do
       it 'should fail' do
         expect do
           should contain_class('monit')
-        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <etch>\./)
+        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\) and 7 \(wheezy\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <etch>\./)
       end
     end
 
@@ -492,7 +492,7 @@ describe 'monit' do
       it 'should fail' do
         expect do
           should contain_class('monit')
-        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <hardy>\./)
+        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\) and 7 \(wheezy\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <hardy>\./)
       end
     end
 

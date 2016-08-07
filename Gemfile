@@ -30,16 +30,6 @@ else
   gem 'facter', :require => false
 end
 
-if RUBY_VERSION < '2.0'
-  # json 2.x requires ruby 2.0.
-  gem 'json', '~> 1.0', :require => false
-  # json_pure 2.0.2 requires ruby 2.0. Lock to 2.0.1
-  gem 'json_pure', '= 2.0.1', :require => false
-else
-  # rubocop requires ruby >= 2.0
-  gem 'rubocop'
-end
-
 if puppetversion = ENV['PUPPET_GEM_VERSION']
   gem 'puppet', puppetversion, :require => false
 else
@@ -51,6 +41,8 @@ if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
   gem 'rspec', '~> 2.0'
   gem 'rake', '~> 10.0'
 else
+  # rubocop requires ruby >= 1.9
+  gem 'rubocop'
   gem 'rake', :require => false
 end
 
