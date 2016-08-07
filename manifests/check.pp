@@ -1,14 +1,12 @@
 # == Define: monit::check
 #
 define monit::check (
-  $content = undef,
   $ensure  = present,
   $source  = undef,
+  $content = undef,
 ) {
-  # The base class must be included first because it is used by parameter defaults
-  if ! defined(Class['monit']) {
-    fail('You must include the monit base class before using any monit defined resources')
-  }
+
+  include ::monit
 
   validate_re($ensure, '^(present|absent)$',
     "monit::check::ensure is <${ensure}> and must be 'present' or 'absent'.")
@@ -24,14 +22,14 @@ define monit::check (
     fail 'monit::check::content is not a string.'
   }
 
-  file { "${::monit::config_dir}/${name}":
+  file { "${monit::config_dir_real}/${name}":
     ensure  => $ensure,
-    owner   => 'root',
-    group   => 'root',
+    owner   => 0,
+    group   => 0,
     mode    => '0644',
     source  => $source,
     content => $content,
-    require => Package['monit'],
-    notify  => Service['monit'],
+    require => Package[$monit::package_name],
+    notify  => Service[$monit::service_name],
   }
 }

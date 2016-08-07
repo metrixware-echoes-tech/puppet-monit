@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe 'monit::check' do
-  let :pre_condition do
-    'include ::monit'
-  end
   let(:title) { 'test' }
   let(:facts) do
     {
@@ -19,8 +16,8 @@ describe 'monit::check' do
     it do
       should contain_file('/etc/monit/conf.d/test').with({
         'ensure'  => 'present',
-        'owner'   => 'root',
-        'group'   => 'root',
+        'owner'   => 0,
+        'group'   => 0,
         'mode'    => '0644',
         'source'  => nil,
         'content' => nil,
@@ -41,8 +38,8 @@ describe 'monit::check' do
       it do
         should contain_file('/etc/monit/conf.d/test').with({
           'ensure'  => value,
-          'owner'   => 'root',
-          'group'   => 'root',
+          'owner'   => 0,
+          'group'   => 0,
           'mode'    => '0644',
           'source'  => nil,
           'content' => nil,
@@ -70,8 +67,8 @@ describe 'monit::check' do
     it do
       should contain_file('/etc/monit/conf.d/test').with({
         'ensure'  => 'present',
-        'owner'   => 'root',
-        'group'   => 'root',
+        'owner'   => 0,
+        'group'   => 0,
         'mode'    => '0644',
         'source'  => nil,
         'content' => content,
@@ -91,8 +88,8 @@ describe 'monit::check' do
     it do
       should contain_file('/etc/monit/conf.d/test').with({
         'ensure'  => 'present',
-        'owner'   => 'root',
-        'group'   => 'root',
+        'owner'   => 0,
+        'group'   => 0,
         'mode'    => '0644',
         'source'  => 'puppet:///modules/monit/ntp',
         'content' => nil,

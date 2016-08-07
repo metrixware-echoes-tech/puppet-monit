@@ -1,12 +1,12 @@
 {
-  "name": "echoes-monit",
-  "version": "1.1.0",
-  "author": "Echoes Technologies",
-  "summary": "Puppet module to manage monit installation and configuration",
+  "name": "ghoneycutt-monit",
+  "version": "1.0.0",
+  "author": "ghoneycutt",
+  "summary": "Manage monit",
   "license": "Apache-2.0",
-  "source": "https://github.com/echoes-tech/puppet-monit",
-  "project_page": "https://github.com/echoes-tech/puppet-monit",
-  "issues_url": "https://github.com/echoes-tech/puppet-monit/issues",
+  "source": "https://github.com/ghoneycutt-tech/puppet-module-monit",
+  "project_page": "https://github.com/ghoneycutt-tech/puppet-module-monit",
+  "issues_url": "https://github.com/ghoneycutt-tech/puppet-module-monit/issues",
   "tags": [
     "monitoring"
   ],
@@ -15,8 +15,7 @@
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
-        "7",
-        "8"
+        "7"
       ]
     },
     {
