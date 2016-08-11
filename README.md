@@ -25,7 +25,6 @@
 
 Puppet module to manage Monit installation and configuration.
 
-
 ## Module Description
 
 This module installs and configures [Monit](http://mmonit.com/monit/).
@@ -128,11 +127,11 @@ Specifies the interval between two checks of Monit. Valid options: numeric. Defa
 
 ##### `config_file`
 
-Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
+Specifies a path to the main config file. Valid options: string. Default value: varies with operating system
 
 ##### `config_dir`
 
-Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
+Specifies a path to the config directory. Valid options: string. Default value: varies with operating system
 
 ##### `config_dir_purge`
 
@@ -162,7 +161,7 @@ Specifies the password to access the Monit Dashboard. Valid options: string. Def
 
 Specifies the logfile directive value. Valid options: string. Default value: '/var/log/monit.log'
 
-Set to eg 'syslog facility log_daemon' to use syslog instead of direct file logging.
+It is possible to use syslog instead of direct file logging. (e.g. 'syslog facility log_daemon')
 
 ##### `mailserver`
 
