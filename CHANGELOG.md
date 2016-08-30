@@ -1,3 +1,7 @@
+## 2016-08-30 - Release 1.1.1
+### Summary
+This release fixes typo and a bad URL. It is published with [Geppeto](https://puppetlabs.github.io/geppetto/).
+
 ## 2016-08-05 - Release 1.1.0
 ### Summary
 This release add support to Debian jessie, OracleLinux and Scientific OSes, as well as a `config_dir_purge` parameter and a lot of great test improvements.
