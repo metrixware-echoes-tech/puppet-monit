@@ -4,11 +4,13 @@
 class monit::params {
   $check_interval            = 120
   $config_dir_purge          = false
+  $config_include            = []
   $httpd                     = false
   $httpd_port                = 2812
   $httpd_address             = 'localhost'
   $httpd_user                = 'admin'
   $httpd_password            = 'monit'
+  $httpd_allow               = '0.0.0.0/0.0.0.0'
   $manage_firewall           = false
   $package_ensure            = 'present'
   $package_name              = 'monit'
