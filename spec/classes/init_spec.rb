@@ -23,6 +23,17 @@ describe 'monit' do
         :config_file       => '/etc/monit/monitrc',
         :service_hasstatus => true,
       },
+    'debian8' =>
+      { :osfamily          => 'Debian',
+        :release           => '8.0',
+        :majrelease        => '8',
+        :lsbdistcodename   => 'jessie',
+        :packages          => 'monit',
+        :monit_version     => '5',
+        :default_content   => 'START=yes',
+        :config_file       => '/etc/monit/monitrc',
+        :service_hasstatus => true,
+      },
     'el5' =>
       { :osfamily          => 'RedHat',
         :release           => '5.0',
@@ -80,6 +91,17 @@ describe 'monit' do
         :release           => '14.04',
         :majrelease        => '14',
         :lsbdistcodename   => 'trusty',
+        :packages          => 'monit',
+        :monit_version     => '5',
+        :default_content   => 'START=yes',
+        :config_file       => '/etc/monit/monitrc',
+        :service_hasstatus => true,
+      },
+    'ubuntu1604' =>
+      { :osfamily          => 'Debian',
+        :release           => '16.04',
+        :majrelease        => '16',
+        :lsbdistcodename   => 'xenial',
         :packages          => 'monit',
         :monit_version     => '5',
         :default_content   => 'START=yes',
@@ -476,7 +498,7 @@ describe 'monit' do
       it 'should fail' do
         expect do
           should contain_class('monit')
-        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <etch>\./)
+        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\), 14.04 \(trusty\) and 16.04 \(xenial\). Detected lsbdistcodename is <etch>\./)
       end
     end
 
@@ -492,7 +514,7 @@ describe 'monit' do
       it 'should fail' do
         expect do
           should contain_class('monit')
-        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\) and 14\.04 \(trusty\)\. Detected lsbdistcodename is <hardy>\./)
+        end.to raise_error(Puppet::Error, /monit supports Debian 6 \(squeeze\), 7 \(wheezy\) and 8 \(jessie\) and Ubuntu 10\.04 \(lucid\), 12\.04 \(precise\), 14.04 \(trusty\) and 16.04 \(xenial\). Detected lsbdistcodename is <hardy>\./)
       end
     end
 
