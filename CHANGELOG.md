@@ -1,10 +1,20 @@
+## 2016-11-07 - Release 1.1.2
+### Summary
+This release adds support to Ubuntu Xenial and improves compatibility with Puppet Server.
+
+#### Features
+- Added support to Ubuntu 16.04.
+
+### Bugfixes
+- Fixed condition that fails with `strict_variables` enabled on the Puppet Server side.
+
 ## 2016-08-30 - Release 1.1.1
 ### Summary
 This release fixes typo and a bad URL. It is published with [Geppeto](https://puppetlabs.github.io/geppetto/).
 
 ## 2016-08-05 - Release 1.1.0
 ### Summary
-This release add support to Debian jessie, OracleLinux and Scientific OSes, as well as a `config_dir_purge` parameter and a lot of great test improvements.
+This release adds support to Debian jessie, OracleLinux and Scientific OSes, as well as a `config_dir_purge` parameter and a lot of great test improvements.
 
 #### Features
 - Added support to Debian jessie.
