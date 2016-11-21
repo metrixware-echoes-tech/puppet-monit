@@ -28,7 +28,7 @@ set eventqueue
 <%- if @httpd == true -%>
 set httpd port <%= @httpd_port %> and
    use address <%= @httpd_address %>
-   allow 0.0.0.0/0.0.0.0
+   allow <%= @httpd_allow %>
    <%- if !@httpd_user.empty? && !@httpd_password.empty? -%>
    allow <%= @httpd_user %>:<%= @httpd_password %>
    <%- end -%>
@@ -36,6 +36,9 @@ set httpd port <%= @httpd_port %> and
 <%- if @mmonit_address  -%>
 set mmonit http://<%= @mmonit_user %>:<%= @mmonit_password %>@<%= @mmonit_address %>:<%= @mmonit_port %>/collector
 <%- if @mmonit_without_credential_bool -%>   and register without credentials<%- end -%>
+<%- end -%>
+<%- @config_include.each do |include| -%>
+include <%= include %>
 <%- end -%>
 
 include <%= @config_dir -%>/*

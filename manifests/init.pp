@@ -7,6 +7,7 @@ class monit (
   $httpd_address             = $monit::params::httpd_address,
   $httpd_user                = $monit::params::httpd_user,
   $httpd_password            = $monit::params::httpd_password,
+  $httpd_allow               = $monit::params::httpd_allow,
   $manage_firewall           = $monit::params::manage_firewall,
   $package_ensure            = $monit::params::package_ensure,
   $package_name              = $monit::params::package_name,
@@ -17,6 +18,7 @@ class monit (
   $config_file               = $monit::params::config_file,
   $config_dir                = $monit::params::config_dir,
   $config_dir_purge          = $monit::params::config_dir_purge,
+  $config_include            = $monit::params::config_include,
   $logfile                   = $monit::params::logfile,
   $mailserver                = $monit::params::mailserver,
   $mailformat                = $monit::params::mailformat,
@@ -73,6 +75,7 @@ class monit (
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
+  validate_string($httpd_allow)
   validate_bool($manage_firewall_bool)
   validate_string($package_ensure)
   validate_string($package_name)
@@ -106,6 +109,7 @@ class monit (
   validate_bool($mmonit_without_credential_bool)
   validate_absolute_path($config_file)
   validate_absolute_path($config_dir)
+  validate_array($config_include)
   validate_bool($config_dir_purge_bool)
   # </variable validations>
 
