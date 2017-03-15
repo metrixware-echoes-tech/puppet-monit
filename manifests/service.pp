@@ -4,20 +4,25 @@ class monit::service inherits monit {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $monit::service_manage {
+  if $monit::service_manage_bool {
     if $::osfamily == 'Debian' {
       file { '/etc/default/monit':
         content => $monit::default_file_content,
-        before  => Service['monit'],
+        notify  => Service[$monit::service_name],
       }
     }
 
     service { 'monit':
       ensure     => $monit::service_ensure,
-      enable     => $monit::service_enable,
       name       => $monit::service_name,
+      enable     => $monit::service_enable,
       hasrestart => true,
       hasstatus  => $monit::service_hasstatus,
+      subscribe  => [
+        File['/var/lib/monit'],
+        File['monit_config_dir'],
+        File['monit_config'],
+      ],
     }
   }
 }

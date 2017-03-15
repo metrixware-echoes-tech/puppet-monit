@@ -25,7 +25,6 @@
 
 Puppet module to manage Monit installation and configuration.
 
-
 ## Module Description
 
 This module installs and configures [Monit](http://mmonit.com/monit/).
@@ -38,10 +37,13 @@ It allows you to enable HTTP Dashboard an to add check from a file.
 **WARNING:** For RedHat systems, you may need to add an additional repository like the [EPEL repository](http://fedoraproject.org/wiki/EPEL).
 You can use the module [stahnma-epel](https://forge.puppetlabs.com/stahnma/epel) to do this.
 
+Supports Puppet v3 (optionally with future parser) and v4 with Ruby versions
+1.8.7 (Puppet v3 only), 1.9.3, 2.0.0 and 2.1.0.
+
 ### Beginning with monit
 
 ```puppet
-include 'monit'
+include ::monit
 ```
 
 ## Usage
@@ -129,11 +131,15 @@ Specifies the interval between two checks of Monit. Valid options: numeric. Defa
 
 ##### `config_file`
 
-Specifies a path to the main config file. Valid options: string. Default value: varies by operating system
+Specifies a path to the main config file. Valid options: string. Default value: varies with operating system
 
 ##### `config_dir`
 
-Specifies a path to the config directory. Valid options: string. Default value: varies by operating system
+Specifies a path to the config directory. Valid options: string. Default value: varies with operating system
+
+##### `config_dir_purge`
+
+Specifies if unmanaged files in the config directory should be purged. Valid options: 'true' or 'false'. Default value: 'false'
 
 ##### `httpd`
 
@@ -159,7 +165,7 @@ Specifies the password to access the Monit Dashboard. Valid options: string. Def
 
 Specifies the logfile directive value. Valid options: string. Default value: '/var/log/monit.log'
 
-Set to eg 'syslog facility log_daemon' to use syslog instead of direct file logging.
+It is possible to use syslog instead of direct file logging. (e.g. 'syslog facility log_daemon')
 
 ##### `mailserver`
 
@@ -259,9 +265,9 @@ Tells Puppet which Monit service will be notify. Valid options: string. Default 
 
 RedHat and Debian family OSes are officially supported. Tested and built on Debian and CentOS.
 
-##Development
+## Development
 
-[Echoes Technologies](https://www.echoes-tech.com) modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great.
+[Echoes Technologies](https://echoes.fr) modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great.
 
 [Fork this module on GitHub](https://github.com/echoes-tech/puppet-monit/fork)
 

@@ -1,39 +1,37 @@
+# == Define: monit::check
+#
 define monit::check (
-  $ensure       = present,
-  $source       = undef,
-  $content      = undef,
-  $package_name = 'monit',
-  $service_name = 'monit',
+  $content = undef,
+  $ensure  = present,
+  $source  = undef,
 ) {
-  validate_re (
-    $ensure,
-    '^(present|absent)$',
-    "${ensure} is not supported for ensure. \
-Allowed values are 'present' and 'absent'."
-  )
-  validate_string($package_name)
-  validate_string($service_name)
+  # The base class must be included first because it is used by parameter defaults
+  if ! defined(Class['monit']) {
+    fail('You must include the monit base class before using any monit defined resources')
+  }
+
+  validate_re($ensure, '^(present|absent)$',
+    "monit::check::ensure is <${ensure}> and must be 'present' or 'absent'.")
 
   if $source and $content {
     fail 'Parameters source and content are mutually exclusive'
   }
-  if $source {
-    validate_string($source)
+
+  if $source != undef and is_string($source) == false {
+    fail 'monit::check::source is not a string.'
   }
-  if $content {
-    validate_string($content)
+  if $content != undef and is_string($content) == false {
+    fail 'monit::check::content is not a string.'
   }
 
-  include monit::params
-
-  file { "${monit::config_dir}/${name}":
+  file { "${::monit::config_dir}/${name}":
     ensure  => $ensure,
-    owner   => 0,
-    group   => 0,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0644',
     source  => $source,
     content => $content,
-    notify  => Service[$service_name],
-    require => Package[$package_name],
+    require => Package['monit'],
+    notify  => Service['monit'],
   }
 }
