@@ -18,7 +18,7 @@ class monit (
   $mailserver                = $monit::params::mailserver,
   $mailformat                = $monit::params::mailformat,
   $alert_emails              = $monit::params::alert_emails,
-  $alert_overrides           = $monit::params::alert_overrides,
+  $alert_context             = $monit::params::alert_context,
   $start_delay               = $monit::params::start_delay,
   $mmonit_address            = $monit::params::mmonit_address,
   $mmonit_port               = $monit::params::mmonit_port,
@@ -53,7 +53,7 @@ class monit (
     validate_hash($mailformat)
   }
   validate_array($alert_emails)
-  validate_string($alert_overrides)
+  validate_string($alert_context)
   validate_integer($start_delay, undef, 0)
   if($start_delay > 0 and $::monit_version < '5') {
     fail('Monit option "start_delay" requires at least Monit 5.0"')

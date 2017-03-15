@@ -19,7 +19,7 @@ class monit::params {
   $mailserver                = undef
   $mailformat                = undef
   $alert_emails              = []
-  $alert_overrides           = ''
+  $alert_context             = ''
   $start_delay               = 0
   $mmonit_address            = undef
   $mmonit_port               = '8080'
