@@ -12,13 +12,20 @@ set statefile /var/lib/monit/state
 <%- if @mailserver -%>
 set mailserver <%= @mailserver %>
 <%- end -%>
+
 <%- if @mailformat -%>
+<%- @mailformat_message = @mailformat['message'] -%>
+<%- @mailformat.delete('message') -%>
 set mail-format {
 <%- @mailformat.sort.each do |key, value| -%>
     <%= key %>: <%= value %>
 <%- end -%>
+<%- if @mailformat_message -%>
+    message: <%= @mailformat_message %>
+<%- end -%>
 }
 <%- end -%>
+
 <%- @alert_emails.each do |email| -%>
 set alert <%= email %>
 <%- end -%>
