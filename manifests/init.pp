@@ -7,6 +7,8 @@ class monit (
   $httpd_address             = $monit::params::httpd_address,
   $httpd_user                = $monit::params::httpd_user,
   $httpd_password            = $monit::params::httpd_password,
+  $httpd_ssl                 = $monit::params::httpd_ssl,
+  $httpd_pemfile             = $monit::params::httpd_pemfile,
   $manage_firewall           = $monit::params::manage_firewall,
   $package_ensure            = $monit::params::package_ensure,
   $package_name              = $monit::params::package_name,
@@ -64,6 +66,12 @@ class monit (
   } else {
     $config_dir_purge_bool = $config_dir_purge
   }
+
+  if is_string($httpd_ssl) == true {
+    $httpd_ssl_bool = str2bool($httpd_ssl)
+  } else {
+    $httpd_ssl_bool = $httpd_ssl
+  }
   # </stringified variable handling>
 
   # <variable validations>
@@ -73,6 +81,7 @@ class monit (
   validate_string($httpd_address)
   validate_string($httpd_user)
   validate_string($httpd_password)
+  validate_bool($httpd_ssl_bool)
   validate_bool($manage_firewall_bool)
   validate_string($package_ensure)
   validate_string($package_name)
@@ -98,6 +107,10 @@ class monit (
 
   if $mmonit_address != undef {
     validate_string($mmonit_address)
+  }
+
+  if $httpd_pemfile != undef {
+    validate_absolute_path($httpd_pemfile)
   }
 
   validate_string($mmonit_port)
