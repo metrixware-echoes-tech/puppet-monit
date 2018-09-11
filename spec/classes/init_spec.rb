@@ -261,6 +261,29 @@ describe 'monit' do
       it { should contain_file('monit_config').with_content(/#{content}/) }
     end
 
+    context 'when httpd ssl with pem is enabled' do
+      let(:params) do
+        {
+            :httpd          => true,
+            :httpd_ssl      => true,
+            :httpd_pemfile  => 'somePEMfile',
+            :httpd_port     => 2420,
+            :httpd_address  => 'otherhost',
+            :httpd_user     => 'tester',
+            :httpd_password => '',
+        }
+      end
+      content = <<-END.gsub(/^\s+\|/, '')
+        |set httpd port 2420 and
+        |   use address otherhost
+        |   allow 0.0.0.0/0.0.0.0
+        |   ssl enable
+        |   pemfile somePEMfile
+        |   allow tester read-only
+      END
+      it { should contain_file('monit_config').with_content(/#{content}/) }
+    end
+
     context 'when manage_firewall and http are set to valid bool <true>' do
       # kernel fact is needed for ::firewall
       let(:pre_condition) { ['include ::firewall'] }

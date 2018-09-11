@@ -157,6 +157,15 @@ Specifies the user to access the Monit Dashboard. Valid options: string. Default
 
 Specifies the password to access the Monit Dashboard. Valid options: string. Default value: 'monit'
 
+##### `httpd_ssl'
+
+Specifies SSL encryption for access the Monit Dashboard. Valid options: 'true' or 'false'. Default value: 'false'
+
+##### `httpd_pemfile'
+
+Specifies the use of the local PEM module for authentication of access the Monit Dashboard. Valid options: string
+Default value: undef.
+
 ##### `logfile`
 
 Specifies the logfile directive value. Valid options: string. Default value: '/var/log/monit.log'

@@ -1,8 +1,10 @@
-## 2016-11-07 - Release 1.1.2
+## 2018-09-11 - Release 1.1.2
 ### Summary
+Based on release 1.1.2 (2016-11-07) of the original module.
 This release adds support to Ubuntu Xenial and improves compatibility with Puppet Server.
 
 #### Features
+- Adds support for PEM and SSL certificate configuration
 - Added support to Ubuntu 16.04.
 
 ### Bugfixes

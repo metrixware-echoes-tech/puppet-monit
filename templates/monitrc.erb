@@ -29,6 +29,13 @@ set eventqueue
 set httpd port <%= @httpd_port %> and
    use address <%= @httpd_address %>
    allow 0.0.0.0/0.0.0.0
+   <%- if @httpd_ssl_bool and @httpd_pemfile -%>
+   ssl enable
+   pemfile <%= @httpd_pemfile %>
+      <%- if !@httpd_user.empty? && @httpd_password.empty? -%>
+   allow <%= @httpd_user %> read-only
+      <%- end -%>
+   <%- end -%>
    <%- if !@httpd_user.empty? && !@httpd_password.empty? -%>
    allow <%= @httpd_user %>:<%= @httpd_password %>
    <%- end -%>
